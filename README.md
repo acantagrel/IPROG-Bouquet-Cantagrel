@@ -1,5 +1,6 @@
-# IPROG
-Projet Info S5
+
+PROJET INFO 
+Essai touché coulé
 
 using System;
 using System.Collections.Generic;
@@ -27,19 +28,19 @@ namespace IPROG_Alice
                 }
                 else
                 {
-                    Console.Write((i + 1) +" ");
+                    Console.Write((i + 1) + " ");
                 }//fin nom des lignes
-                for (int j = 0; j<10; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     Console.Write("*  " + tab[i, j] + "  ");
-                    if (j==9)
+                    if (j == 9)
                     {
                         Console.Write("*");
                     }
                 }
                 Console.Write("\n");
                 Console.Write("   *     *     *     *     *     *     *     *     *     *     *\n");
-                if (i==9)
+                if (i == 9)
                 {
                     Console.Write("****************************************************************\n");
                 }
@@ -48,17 +49,17 @@ namespace IPROG_Alice
 
 
 
-        /*
+
         static void InitialiserPlateau(char[,] tab, char[] tabBateau)
         {
             Random r = new Random();
             int choix = r.Next(2); //si choix vaut 0, il place de manière horizontale, sinon de manière verticale
             bool test = true;
-           
-            do
+            if (choix == 0)
             {
-                if (choix == 0)
+                do
                 {
+                    test = true;
                     int i = r.Next(10);
                     int j = r.Next(10 - tabBateau.Length);
                     //teste si le tableau est vide là où on veut écrire
@@ -68,299 +69,137 @@ namespace IPROG_Alice
                         if (tab[i, j + k] != 0)
                         {
                             test = false;
-
                         }
+                    }
 
-                        if (test == true)
+                    if (test == true)
+                    {
+                        for (k = 0; k < tabBateau.Length; k++)
                         {
-
                             tab[i, j + k] = tabBateau[k];
                         }
                     }
-                }
-                else
+                } while (test == false);
+            }
+            else
+            {
+                do
                 {
+                    test = true;
                     int j = r.Next(10);
                     int i = r.Next(10 - tabBateau.Length);
                     //teste si le tableau est vide là où on veut écrire
                     int k; //compteur de la taille du tableau du bateau
                     for (k = 0; k < tabBateau.Length; k++)
                     {
-                        if (tab[i + k, j] != 0)
+                        if ((tab[i + k, j] != 0)) //|| (tab[i + k, j] == '#'))
                         {
                             test = false;
-
                         }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabBateau.Length; k++)
+
+                        if (test == true)
                         {
                             tab[i + k, j] = tabBateau[k];
                         }
                     }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-        }*/
-
-
-
-        static void InitialiserPlateau(char[,] tab, char[] tabB1, char[] tabB2, char[] tabB3, char[] tabB4, char[] tabB5)
-        {
-            Random r = new Random();
-            int choix = r.Next(2); //si choix vaut 0, il place de manière horizontale, sinon de manière verticale
-            bool test = true;
-
-            do
-            {
-                if (choix == 0)
-                {
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabB1.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB1.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-
-                        }
-
-                        if (test == true)
-                        {
-
-                            tab[i, j + k] = tabB1[k];
-                        }
-                    }
-                }
-                else
-                {
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabB1.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB1.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-
-                        }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabB1.Length; k++)
-                        {
-                            tab[i + k, j] = tabB1[k];
-                        }
-                    }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-
-            do
-            {
-                if (choix == 0)
-                {
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabB2.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB2.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-
-                        }
-
-                        if (test == true)
-                        {
-
-                            tab[i, j + k] = tabB2[k];
-                        }
-                    }
-                }
-                else
-                {
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabB2.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB2.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-
-                        }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabB2.Length; k++)
-                        {
-                            tab[i + k, j] = tabB2[k];
-                        }
-                    }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-            do
-            {
-                if (choix == 0)
-                {
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabB3.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB3.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-
-                        }
-
-                        if (test == true)
-                        {
-
-                            tab[i, j + k] = tabB3[k];
-                        }
-                    }
-                }
-                else
-                {
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabB3.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB3.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-
-                        }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabB3.Length; k++)
-                        {
-                            tab[i + k, j] = tabB3[k];
-                        }
-                    }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-            do
-            {
-                if (choix == 0)
-                {
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabB4.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB4.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-
-                        }
-
-                        if (test == true)
-                        {
-
-                            tab[i, j + k] = tabB4[k];
-                        }
-                    }
-                }
-                else
-                {
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabB4.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB4.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-
-                        }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabB4.Length; k++)
-                        {
-                            tab[i + k, j] = tabB4[k];
-                        }
-                    }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-            do
-            {
-                if (choix == 0)
-                {
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabB5.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB5.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-
-                        }
-
-                        if (test == true)
-                        {
-
-                            tab[i, j + k] = tabB1[k];
-                        }
-                    }
-                }
-                else
-                {
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabB5.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabB5.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-
-                        }
-                    }
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabB5.Length; k++)
-                        {
-                            tab[i + k, j] = tabB5[k];
-                        }
-                    }
-                }//il faut mettre un while !!! pou recommencer quand le test est faux !!!
-            } while (test == false);
-
+                } while (test == false);
+            }
         }
 
 
 
-        /*
-        static void DessinerPlateauJ1(char[,] tab, char[] tabB1, char[] tabB2, char[] tabB3, char[] tabB4, char[] tabB5)
+
+        static void InitialiserPlateauOrdi(char[,] tab, char[] tabBateau, int[] data)
         {
-            InitialiserPlateau(tab, tabB1);
-            //DessinerPlateau(tab);
-            InitialiserPlateau(tab, tabB2);
-            //DessinerPlateau(tab);
-            InitialiserPlateau(tab, tabB3);
-            //DessinerPlateau(tab);
-            InitialiserPlateau(tab, tabB4);
-            //DessinerPlateau(tab);
-            InitialiserPlateau(tab, tabB5);
-            //DessinerPlateau(tab);
-        }*/
+            Random r = new Random();
+            int choix = r.Next(2); //si choix vaut 0, il place de manière horizontale, sinon de manière verticale
+            bool test = true;
+            int indiceI; //à récupérer, premier case du bateau
+            int indiceJ;
+            if (choix == 0)
+            {
+                do
+                {
+                    test = true;
+                    int i = r.Next(10);
+                    int j = r.Next(10 - tabBateau.Length);
+                    indiceI = i;
+                    indiceJ = j;
+                    //teste si le tableau est vide là où on veut écrire
+                    int k; //compteur de la taille du tableau du bateau
+                    for (k = 0; k < tabBateau.Length; k++)
+                    {
+                        if (tab[i, j + k] != 0)
+                        {
+                            test = false;
+                        }
+                    }
+
+                    if (test == true)
+                    {
+                        for (k = 0; k < tabBateau.Length; k++)
+                        {
+                            tab[i, j + k] = tabBateau[k];
+                        }
+                    }
+                } while (test == false);
+            }
+            else
+            {
+                do
+                {
+                    test = true;
+                    int j = r.Next(10);
+                    int i = r.Next(10 - tabBateau.Length);
+                    indiceI = i;
+                    indiceJ = j;
+                    //teste si le tableau est vide là où on veut écrire
+                    int k; //compteur de la taille du tableau du bateau
+                    for (k = 0; k < tabBateau.Length; k++)
+                    {
+                        if ((tab[i + k, j] != 0)) //|| (tab[i + k, j] == '#'))
+                        {
+                            test = false;
+                        }
+
+                        if (test == true)
+                        {
+                            tab[i + k, j] = tabBateau[k];
+                        }
+                    }
+                } while (test == false);
+            }
+            //data = { tabBateau.Length, choix, indiceI; indiceJ};
+            data[0] = tabBateau.Length;
+            data[1] = choix;
+            data[2] = indiceI;
+            data[3] = indiceJ;
+
+            //return data;
+        }
+
+
+        static void LirePlateauOrdi(char[,] tab, int[,] donnees)
+        {
+            for (int k = 0; k < 17; k++)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+
+                        if (tab[i, j] == '#')
+                        {
+                            donnees[k, 0] = i;
+                            donnees[k, 1] = j;
+                        }
+                    }
+                }
+            }
+
+        }
+
+
 
 
         static void Main(string[] args)
@@ -375,42 +214,171 @@ namespace IPROG_Alice
             char[] Crois = { '#', '#', '#' }; //Croiseur
             char[] CT = { '#', '#' };//ContreTorpilleur
 
-            /*DessinerPlateau(tabj1);
-            Console.Write("\n");
-            InitialiserPlateau(tabj1, PA);
-            DessinerPlateau(tabj1);
-            InitialiserPlateau(tabj1, Cuir);
-            DessinerPlateau(tabj1);
-            InitialiserPlateau(tabj1, SM);
-            DessinerPlateau(tabj1);
-            InitialiserPlateau(tabj1, Crois);
-            DessinerPlateau(tabj1);
-            InitialiserPlateau(tabj1, CT);
-            DessinerPlateau(tabj1);*/
-            DessinerPlateau(tabj1);
-
-            //DessinerPlateauJ1(tabj1, PA, Cuir, SM, Crois, CT);
-            InitialiserPlateau(tabj1, PA, Cuir, SM, Crois, CT);
-            DessinerPlateau(tabj1);
-
-
+            //Début de partie : choix du placement des bateaux
             string reponse = "a";
+            Console.WriteLine("VOTRE PLATEAU");
+            InitialiserPlateau(tabj1, PA);
+            InitialiserPlateau(tabj1, Cuir);
+            InitialiserPlateau(tabj1, SM);
+            InitialiserPlateau(tabj1, Crois);
+            InitialiserPlateau(tabj1, CT);
+            DessinerPlateau(tabj1);
             while ((reponse != "o") && (reponse != "n"))
             {
                 Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
                 reponse = Console.ReadLine();
                 while (reponse == "n")
                 {
-                    InitialiserPlateau(tabj1, PA, Cuir, SM, Crois, CT);
+                    tabj1 = new char[10, 10]; //réinitialiser tabj1 
+                    InitialiserPlateau(tabj1, PA);
+                    InitialiserPlateau(tabj1, Cuir);
+                    InitialiserPlateau(tabj1, SM);
+                    InitialiserPlateau(tabj1, Crois);
+                    InitialiserPlateau(tabj1, CT);
                     DessinerPlateau(tabj1);
+                    Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
+                    reponse = Console.ReadLine();
+                }
+            }
+            Console.WriteLine("\n \n");
+
+
+            //Initialisation du plateau de l'IA
+            Console.WriteLine("PLATEAU DE L'IA");
+            int[] dataPA = new int[4];
+            int[] dataCuir = new int[4];
+            int[] data = new int[4]; //ATTTTEEEENNTTTTIOOOONN !!!!!!!!!!!!!!!!
+            int[] dataCrois = new int[4];
+            int[] dataCT = new int[4];
+            int[,] donnees = new int[17, 2];
+            for (int k = 0; k < 5; k++)
+            {
+                tabOrdi[3 + k, 0] = PA[k];
+            }
+            InitialiserPlateauOrdi(tabOrdi, SM, data);
+            for (int m = 0; m < 4; m++)
+            { Console.WriteLine(data[m]); }
+            DessinerPlateau(tabOrdi);
+            LirePlateauOrdi(tabOrdi, donnees);
+            for (int i = 0; i < 17; i++)
+            {
+                Console.Write(donnees[i, 0]);
+                Console.Write(',');
+            }
+            Console.WriteLine("\n");
+            for (int i = 0; i < 17; i++)
+            {
+                Console.Write(donnees[i, 1]);
+                Console.Write(',');
+            }
+            Console.WriteLine("\n \n");
+
+
+            //Déroulement de la partie
+            int nbBateauCoulé = 0;
+            int nbTirDispo = 5 - nbBateauCoulé;
+            Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? \nVous avez le droit à {0} tir(s).", nbTirDispo);
+
+            for (int nbTir = 0; nbTir < 5; nbTir++)
+            {
+                Console.WriteLine("C'est votre tir n°{0}.", (nbTir + 1));
+                string saisieColonne = "K";
+                while ((saisieColonne != "A") && (saisieColonne != "B") && (saisieColonne != "C") && (saisieColonne != "D") && (saisieColonne != "E") && (saisieColonne != "F") && (saisieColonne != "G") && (saisieColonne != "H") && (saisieColonne != "I") && (saisieColonne != "J"))
+                {
+                    Console.Write("Colonne ? ");
+                    saisieColonne = Console.ReadLine();
+                }
+                int colonne = -3;
+                if (saisieColonne == "A")
+                { colonne = 0; }
+                else if (saisieColonne == "B")
+                { colonne = 1; }
+                else if (saisieColonne == "C")
+                { colonne = 2; }
+                else if (saisieColonne == "D")
+                { colonne = 3; }
+                else if (saisieColonne == "E")
+                { colonne = 4; }
+                else if (saisieColonne == "F")
+                { colonne = 5; }
+                else if (saisieColonne == "G")
+                { colonne = 6; }
+                else if (saisieColonne == "H")
+                { colonne = 7; }
+                else if (saisieColonne == "I")
+                { colonne = 8; }
+                else if (saisieColonne == "J")
+                { colonne = 9; }
+
+
+                int ligne = 11;
+                while ((ligne < 0) || (ligne > 9))
+                {
+                    Console.Write("Ligne ? ");
+                    string saisieLigne = Console.ReadLine();
+                    ligne = Convert.ToInt16(saisieLigne);
+                }
+                ligne--;//pour que le numéro de ligne entré corresponde à la bonne ligne du plateau
+
+
+                //Actions sur le plateau de l'IA
+                if (tabOrdi[ligne, colonne] == 0)
+                {
+                    tabOrdi[ligne, colonne] = 'O'; //raté, tir dans l'eau
+                    Console.WriteLine("Raté !");
+                }
+                else
+                    if (tabOrdi[ligne, colonne] == '#')//cad sur un bateau
+                {
+                    tabOrdi[ligne, colonne] = 'X'; //touché
+                    Console.WriteLine("Touché !");
+
+                    /*if (data[0]==2)
+                    {
+                        CT[0] = 'X';
+                    } else */
+                    /*if (data[0] == 3)
+                    {
+                        SM[0] = 'X';
+                    }*//* else if (data[0]==4)
+                    {
+                        Cuir[0] = 'X';
+                    }else if (data[0]==5)
+                    {
+                        PA[0] = 'X';
+                    }
+                    else
+                    {
+                        Crois[0] = 'X';
+                    }*/
+                }
+                else if ((tabOrdi[ligne, colonne] == 'O') || (tabOrdi[ligne, colonne] == 'X'))
+                { Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit."); } // ATTENTION ! DEPEND DU MODE DE JEU
+
+                //TOUCHE COULE
+                bool test = true;
+                for (int k = 0; k < 3; k++)
+                {
+                    if (SM[k] != '#')
+                    {
+                        test = false;
+                    }
+                    if (test == true)
+                    {
+                        Console.WriteLine("Touché coulé !");
+                    }
                 }
             }
 
 
 
 
+            //Vérifications 
+            DessinerPlateau(tabOrdi);
+
             Console.ReadKey();
         }
+
+
     }
 }
-
