@@ -208,7 +208,9 @@ namespace IPROG_Alice
             } 
             if (reponse == "o")
             {
-                Console.WriteLine("##### REGLES #####\n\n A expliquer !!! \nmode normal + mode salvo");
+                Console.WriteLine("##### REGLES #####\n\nLe but de la bataille navale est de couler tous les bateaux de son adversaire.\n Dans un premier temps, chaque joueur place ses bateaux sur le plateau sans voir ceux de son adversaire.\n Ensuite, chacun à leur tour, les joueurs essaient de trouver et de couler les bateaux de l'adversaire.\n
+Chaque joueur dispose de 5 bateaux longueurs différentes : - Un porte-avion d'une longueure de 5 cases\n - Un cuirassé d'une longueure de 4 cases \n - Un sous-marin et un croiseur d'une longueur de 3 cases \n -Un contre-torpilleur d'une longueure de deux cases \n Ce jeux dispose de deux modes de jeux où la façon de tirer :\n- le mode classique : A chaque tir annoncé par un joueur (par exemple C5), le second joueur regarde si l’un de ses navires occupe la case visée.\n Il doit répondre afin de dire à l'autre joueur s'il a touché ou coulé un navire ou bien tiré dans l'eau. 
+ \n  - mode salvo : chaque joueur annonce plusieurs tirs à la fois. Le nombre de tirs simultanés est de 5 initialement. Ce nombre diminue en fonction du nombre de bateaux déjà coulés.\n Quand un joueur détruit un navire de son adversaire, il ne tire plus que 4 coups au lieu de 5. Quand 2 bateaux sont détruits, le joueur ennemi tire uniquement 3 coups.\n Quand 3 navires sont détruits, le joueur opposé ne tire plus que 2 coups, etc.);
             }
             string reponse2 = "a";
             while ((reponse2 != "s") && (reponse2 != "n"))
