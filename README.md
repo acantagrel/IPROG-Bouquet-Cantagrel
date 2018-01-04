@@ -1,7 +1,3 @@
-
-PROJET INFO 
-Essai touché coulé
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -199,11 +195,54 @@ namespace IPROG_Alice
 
         }
 
-
+        static void PresenterJeu(ref bool bool1, ref bool bool2)
+        {
+            Console.WriteLine("######################## BATAILLE NAVALE ########################");
+            Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
+            string reponse = "a";
+            while ((reponse != "o") && (reponse != "n"))
+            {
+                
+                Console.WriteLine("Voulez -vous lire les règles ? (o/n)");
+                reponse = Console.ReadLine();
+            } 
+            if (reponse == "o")
+            {
+                Console.WriteLine("##### REGLES #####\n\n A expliquer !!! \nmode normal + mode salvo");
+            }
+            string reponse2 = "a";
+            while ((reponse2 != "s") && (reponse2 != "n"))
+            {
+                Console.WriteLine("Avec quel mode voulez-vous jouer ? Tapez 's' pour le mode Salvo ou 'n' pour le mode normal");
+                reponse2 = Console.ReadLine();
+            }
+            if (reponse2 == "n")
+            {
+                bool1 = false;
+            }
+            string reponse3 = "a";
+            while ((reponse3 != "f") && (reponse3 != "i"))
+            {
+                Console.WriteLine("Quel niveau souhaitez-vous pour l'ordinateur ? Tapez 'f' pour facile ou 'i' pour intelligent");
+                reponse3 = Console.ReadLine();
+            }
+            if (reponse3 == "i")
+            {
+                bool2 = true;
+            }
+        }
 
 
         static void Main(string[] args)
         {
+            bool modeJeu = true; //par défaut le mode salvo est lancé
+            bool niveauOrdi = false; //par défaut le niveau facile est lancé
+            PresenterJeu(ref modeJeu, ref niveauOrdi); //faut placer les arguments en références pour qu'ils soient effectivement modifiés
+            Console.WriteLine("Mode Jeu : "+ modeJeu);
+            Console.WriteLine("nivordi :" +niveauOrdi);
+
+            
+
             char[,] tabj1 = new char[10, 10];
             char[,] tabOrdi = new char[10, 10];
 
@@ -354,6 +393,19 @@ namespace IPROG_Alice
                 }
                 else if ((tabOrdi[ligne, colonne] == 'O') || (tabOrdi[ligne, colonne] == 'X'))
                 { Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit."); } // ATTENTION ! DEPEND DU MODE DE JEU
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 //TOUCHE COULE
                 bool test = true;
