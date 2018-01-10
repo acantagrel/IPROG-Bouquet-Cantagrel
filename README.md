@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace ProjetInfo
 {
     class Program
@@ -260,7 +261,7 @@ namespace ProjetInfo
             }
             if (testBateau == true)
             {
-                Console.WriteLine("TOUCHE COULE !");
+                Console.WriteLine("COULE !");
                 nbBateauCoulé++;
                 coulé = true;
             }
@@ -321,7 +322,7 @@ namespace ProjetInfo
         }
         static int TraduireStringEnInt(string saisieColonne)
         {
-            int colonne=-1;
+            int colonne = -1;
             if (saisieColonne == "A")
             {
                 colonne = 0;
@@ -419,19 +420,21 @@ namespace ProjetInfo
                 answer = Console.ReadLine();
                 if (answer == "o")
                 {
+                    answer = "a";
+                    while ((answer != "n") && (answer != "o"))
+                    {
+                        Console.WriteLine("Voulez vous sauvegarder la partie ?");
+                        answer = Console.ReadLine();
+                        if (answer == "o")
+                        {
+                            Sauvegarder(ref tab);
+                        }
 
+                    }
+                    Environment.Exit();
                 }
             }
-            answer = "a";
-            while ((answer != "n") && (answer != "o"))
-            {
-                Console.WriteLine("Voulez vous sauvegarder la partie ?");
-                answer = Console.ReadLine();
-                if (answer == "o")
-                {
-                    Sauvegarder(ref tab);
-                }
-            }
+           
 
         }
 
@@ -456,7 +459,7 @@ namespace ProjetInfo
 
         }
 
-       
+
 
 
         static void Main(string[] args)
@@ -517,6 +520,7 @@ namespace ProjetInfo
 
             //Initialisation du plateau de l'IA
             Console.WriteLine("PLATEAU DE L'IA");
+            int[] donneesOrdi = new int[20];
             int[] donnees = new int[20];
             int compteur = 0;
             int bateau = 0;
@@ -524,23 +528,23 @@ namespace ProjetInfo
             {
                 if (bateau == 0)
                 {
-                    InitialiserPlateauOrdi(tabOrdi, PAOrdi, compteur, ref donnees);
+                    InitialiserPlateauOrdi(tabOrdi, PAOrdi, compteur, ref donneesOrdi);
                 }
                 if (bateau == 1)
                 {
-                    InitialiserPlateauOrdi(tabOrdi, CuirOrdi, compteur, ref donnees);
+                    InitialiserPlateauOrdi(tabOrdi, CuirOrdi, compteur, ref donneesOrdi);
                 }
                 if (bateau == 2)
                 {
-                    InitialiserPlateauOrdi(tabOrdi, SMOrdi, compteur, ref donnees);
+                    InitialiserPlateauOrdi(tabOrdi, SMOrdi, compteur, ref donneesOrdi);
                 }
                 if (bateau == 3)
                 {
-                    InitialiserPlateauOrdi(tabOrdi, CroisOrdi, compteur, ref donnees);
+                    InitialiserPlateauOrdi(tabOrdi, CroisOrdi, compteur, ref donneesOrdi);
                 }
                 if (bateau == 4)
                 {
-                    InitialiserPlateauOrdi(tabOrdi, CTOrdi, compteur, ref donnees);
+                    InitialiserPlateauOrdi(tabOrdi, CTOrdi, compteur, ref donneesOrdi);
                 }
                 bateau++;
             }
@@ -612,104 +616,104 @@ namespace ProjetInfo
                         }
                         ligne--;//pour que le numéro de ligne entré corresponde à la bonne ligne du plateau
 
-
-
                         Tirer(colonne, ligne, tabOrdi);
 
+                        DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
+                        DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
+                        DefinirTableau(SMOrdi, 2, donneesOrdi, tabOrdi);
+                        DefinirTableau(CroisOrdi, 3, donneesOrdi, tabOrdi);
+                        DefinirTableau(CTOrdi, 4, donneesOrdi, tabOrdi);
 
 
-                        DefinirTableau(PA, 0, donnees, tabOrdi);
-                        DefinirTableau(Cuir, 1, donnees, tabOrdi);
-                        DefinirTableau(SM, 2, donnees, tabOrdi);
-                        DefinirTableau(Crois, 3, donnees, tabOrdi);
-                        DefinirTableau(CT, 4, donnees, tabOrdi);
 
-                        /*int c1 = 0;
-                        int c2 = 0;
-                        int c3 = 0;
-                        int c4 = 0;
-                        int c5 = 0;
-                        while ((couléPA == false) && (c1 == 0))
+                        if (couléPAOrdi == false)
                         {
-                            c1++;
-                            TesterToucheCoule(PA, ref nbBateauCoulé, ref couléPA);
-                        }
-                        while ((couléCuir == false) && (c2 == 0))
-                        {
-
-                            TesterToucheCoule(Cuir, ref nbBateauCoulé, ref couléCuir);
-                            c2++;
-                        }
-                        while ((couléSM == false) && (c3 == 0))
-                        {
-                            c3++;
-                            TesterToucheCoule(SM, ref nbBateauCoulé, ref couléSM);
-                        }
-                        while ((couléCrois == false) && (c4 == 0))
-                        {
-                            c4++;
-                            TesterToucheCoule(Crois, ref nbBateauCoulé, ref couléCrois);
-                        }
-                        while ((couléCT == false) && (c5 == 0))
-                        {
-                            c5++;
-                            TesterToucheCoule(CT, ref nbBateauCoulé, ref couléCT);
-                        }*/
-
-                        int c1 = 0;
-                        int c2 = 0;
-                        int c3 = 0;
-                        int c4 = 0;
-                        int c5 = 0;
-                        while ((couléPAOrdi == false) && (c1 == 0))
-                        {
-                            c1++;
                             TesterToucheCoule(PAOrdi, ref nbBateauCouléOrdi, ref couléPAOrdi);
                         }
-                        while ((couléCuirOrdi == false) && (c2 == 0))
+                        if (couléCuirOrdi == false)
                         {
 
                             TesterToucheCoule(CuirOrdi, ref nbBateauCouléOrdi, ref couléCuirOrdi);
-                            c2++;
+
                         }
-                        while ((couléSMOrdi == false) && (c3 == 0))
+                        if (couléSMOrdi == false)
                         {
-                            c3++;
+
                             TesterToucheCoule(SMOrdi, ref nbBateauCouléOrdi, ref couléSMOrdi);
                         }
-                        while ((couléCroisOrdi == false) && (c4 == 0))
+                        if (couléCroisOrdi == false)
                         {
-                            c4++;
+
                             TesterToucheCoule(CroisOrdi, ref nbBateauCouléOrdi, ref couléCroisOrdi);
                         }
-                        while ((couléCTOrdi == false) && (c5 == 0))
+                        if (couléCTOrdi == false)
                         {
-                            c5++;
+
                             TesterToucheCoule(CTOrdi, ref nbBateauCouléOrdi, ref couléCTOrdi);
                         }
                         DessinerPlateau(tabOrdi);
-                        DessinerPlateau(tabj1);
+                        //DessinerPlateau(tabj1);
                     }//for (nbTir<5)
                     nbTirDispoOrdi = 5 - nbBateauCoulé;
                     Console.WriteLine("C'est le tour de l'ordi. \nIl a le droit à {0} tir(s).", nbTirDispoOrdi);
                     int colonneOrdi;
                     int ligneOrdi;
+
+
                     for (int nbTir = 0; nbTir < nbTirDispoOrdi; nbTir++)
                     {
                         char saisieColonneOrdi = 'W';
-                        do
+                        if (niveauOrdi == false)
                         {
-                            colonneOrdi = r.Next(0, 10);
-                            ligneOrdi = r.Next(0, 10);
-                            saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
+                            do
+                            {
+                                colonneOrdi = r.Next(0, 10);
+                                ligneOrdi = r.Next(0, 10);
+                                saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
 
+                            }
+                            while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
+                        }
+                        else
+                        {
 
                         }
-                        while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
                         Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
                         Tirer(colonneOrdi, ligneOrdi, tabj1);
+                        DefinirTableau(PA, 0, donnees, tabj1);
+                        DefinirTableau(Cuir, 1, donnees, tabj1);
+                        DefinirTableau(SM, 2, donnees, tabj1);
+                        DefinirTableau(Crois, 3, donnees, tabj1);
+                        DefinirTableau(CT, 4, donnees, tabj1);
+                        if (couléPA == false)
+                        {
+                            TesterToucheCoule(PA, ref nbBateauCoulé, ref couléPA);
+                        }
+                        if (couléCuir == false)
+                        {
+
+                            TesterToucheCoule(Cuir, ref nbBateauCoulé, ref couléCuir);
+
+                        }
+                        if (couléSM == false)
+                        {
+
+                            TesterToucheCoule(SM, ref nbBateauCoulé, ref couléSM);
+                        }
+                        if (couléCroisOrdi == false)
+                        {
+
+                            TesterToucheCoule(Crois, ref nbBateauCoulé, ref couléCrois);
+                        }
+                        if (couléCT == false)
+                        {
+
+                            TesterToucheCoule(CT, ref nbBateauCoulé, ref couléCT);
+                        }
+
                     }
                     DessinerPlateau(tabj1);
+
                     Console.WriteLine("Vous avez coulé {0} bateau(x).", nbBateauCouléOrdi);
                     if ((couléPAOrdi == true) && (couléCuirOrdi == true) && (couléSMOrdi == true) && (couléCroisOrdi == true) && (couléCTOrdi == true))
                     {
@@ -720,12 +724,6 @@ namespace ProjetInfo
                         victoire = 0;
                     }
                 }
-
-
-
-
-
-
 
                 else
                 {
@@ -742,10 +740,10 @@ namespace ProjetInfo
 
                     if (saisieColonne != "Q")
                     {
-                         colonne = TraduireStringEnInt(saisieColonne);
+                        colonne = TraduireStringEnInt(saisieColonne);
                     }
                     else
-                    { 
+                    {
                         Quitter(reponse, ref tabj1);
                         Environment.Exit(0);
                     }
@@ -762,26 +760,88 @@ namespace ProjetInfo
 
 
                     Tirer(colonne, ligne, tabOrdi);
+                    DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
+                    DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
+                    DefinirTableau(SMOrdi, 2, donneesOrdi, tabOrdi);
+                    DefinirTableau(CroisOrdi, 3, donneesOrdi, tabOrdi);
+                    DefinirTableau(CTOrdi, 4, donneesOrdi, tabOrdi);
+                    if (couléPAOrdi == false)
+                    {
+                        TesterToucheCoule(PAOrdi, ref nbBateauCouléOrdi, ref couléPAOrdi);
+                    }
+                    if (couléCuirOrdi == false)
+                    {
 
+                        TesterToucheCoule(CuirOrdi, ref nbBateauCouléOrdi, ref couléCuirOrdi);
+
+                    }
+                    if (couléSMOrdi == false)
+                    {
+
+                        TesterToucheCoule(SMOrdi, ref nbBateauCouléOrdi, ref couléSMOrdi);
+                    }
+                    if (couléCroisOrdi == false)
+                    {
+
+                        TesterToucheCoule(CroisOrdi, ref nbBateauCouléOrdi, ref couléCroisOrdi);
+                    }
+                    if (couléCTOrdi == false)
+                    {
+
+                        TesterToucheCoule(CTOrdi, ref nbBateauCouléOrdi, ref couléCTOrdi);
+                    }
 
                     DessinerPlateau(tabOrdi);
                     Console.WriteLine("C'est le tour de l'ordi. ");
                     int colonneOrdi;
                     int ligneOrdi;
                     char saisieColonneOrdi = 'W';
-                    do
+                    if (niveauOrdi == false)
                     {
-                        colonneOrdi = r.Next(0, 10);
-                        ligneOrdi = r.Next(0, 10);
-
-                        colonneOrdi = r.Next(0, 10);
-                        ligneOrdi = r.Next(0, 10);
-                        saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
+                        do
+                        {
+                            colonneOrdi = r.Next(0, 10);
+                            ligneOrdi = r.Next(0, 10);
+                            saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
+                        }
+                        while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
                     }
-                    while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
-                        Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
-                        Tirer(colonneOrdi, ligneOrdi, tabj1);
-                    
+                    else
+                    {
+
+                    }
+                    Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
+                    Tirer(colonneOrdi, ligneOrdi, tabj1);
+                    DefinirTableau(PA, 0, donnees, tabj1);
+                    DefinirTableau(Cuir, 1, donnees, tabj1);
+                    DefinirTableau(SM, 2, donnees, tabj1);
+                    DefinirTableau(Crois, 3, donnees, tabj1);
+                    DefinirTableau(CT, 4, donnees, tabj1);
+                    if (couléPA == false)
+                    {
+                        TesterToucheCoule(PA, ref nbBateauCoulé, ref couléPA);
+                    }
+                    if (couléCuir == false)
+                    {
+
+                        TesterToucheCoule(Cuir, ref nbBateauCoulé, ref couléCuir);
+
+                    }
+                    if (couléSM == false)
+                    {
+
+                        TesterToucheCoule(SM, ref nbBateauCoulé, ref couléSM);
+                    }
+                    if (couléCroisOrdi == false)
+                    {
+
+                        TesterToucheCoule(Crois, ref nbBateauCoulé, ref couléCrois);
+                    }
+                    if (couléCT == false)
+                    {
+
+                        TesterToucheCoule(CT, ref nbBateauCoulé, ref couléCT);
+                    }
                     DessinerPlateau(tabj1);
                     if ((couléPAOrdi == true) && (couléCuirOrdi == true) && (couléSMOrdi == true) && (couléCroisOrdi == true) && (couléCTOrdi == true))
                     {
@@ -790,6 +850,7 @@ namespace ProjetInfo
                     if ((couléPA == true) && (couléCuir == true) && (couléSM == true) && (couléCrois == true) && (couléCT == true))
                     {
                         victoire = 0;
+
                     }
                 }
                 if (victoire == 1)
