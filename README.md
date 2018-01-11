@@ -209,8 +209,28 @@ namespace ProjetInfo
 
 
 
+        static void TirerOrdi(int colonne, int ligne, char[,] tableau, ref bool touche)
+        {
+            if (tableau[ligne, colonne] == 0)
+            {
+                tableau[ligne, colonne] = 'O'; //raté, tir dans l'eau
+                Console.WriteLine("Raté !");
+            }
+            else if ((tableau[ligne, colonne] == '#') || (tableau[ligne, colonne] == ' '))//cad sur un bateau
+            {
+                tableau[ligne, colonne] = 'X'; //touché
+                Console.WriteLine("Touché !");
+                touche = true;
+            }
+            else if ((tableau[ligne, colonne] == 'O') || (tableau[ligne, colonne] == 'X'))
+            {
+                Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit.");
+            }
+        }
 
-        static void PresenterJeu(ref bool bool1, ref bool bool2)
+
+
+            static void PresenterJeu(ref bool bool1, ref bool bool2)
         {
             Console.WriteLine("######################## BATAILLE NAVALE ########################");
             Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
@@ -411,6 +431,8 @@ namespace ProjetInfo
             }
             return saisieColonne;
         }
+
+
         static void Quitter(string answer, ref char[,] tab)
         {
             answer = "a";
@@ -431,10 +453,9 @@ namespace ProjetInfo
                         }
 
                     }
-                    Environment.Exit();
                 }
             }
-           
+
 
         }
 
@@ -548,13 +569,7 @@ namespace ProjetInfo
                 }
                 bateau++;
             }
-
-            /*TEST POUR PLACEMENT D 1 BATEAU 
-             * for (int k = 0; k < 5; k++)
-             {
-                 tabOrdi[3 + k, 0] = PA[k];
-             }*/
-
+            
 
             DessinerPlateau(tabOrdi);
             Console.WriteLine("\n");
@@ -632,34 +647,30 @@ namespace ProjetInfo
                         }
                         if (couléCuirOrdi == false)
                         {
-
                             TesterToucheCoule(CuirOrdi, ref nbBateauCouléOrdi, ref couléCuirOrdi);
-
                         }
                         if (couléSMOrdi == false)
                         {
-
                             TesterToucheCoule(SMOrdi, ref nbBateauCouléOrdi, ref couléSMOrdi);
                         }
                         if (couléCroisOrdi == false)
                         {
-
                             TesterToucheCoule(CroisOrdi, ref nbBateauCouléOrdi, ref couléCroisOrdi);
                         }
                         if (couléCTOrdi == false)
                         {
-
                             TesterToucheCoule(CTOrdi, ref nbBateauCouléOrdi, ref couléCTOrdi);
                         }
+                        Console.WriteLine("Plateau de l'adversaire");
                         DessinerPlateau(tabOrdi);
                         //DessinerPlateau(tabj1);
                     }//for (nbTir<5)
+
+                    //tour de l'ordi
                     nbTirDispoOrdi = 5 - nbBateauCoulé;
                     Console.WriteLine("C'est le tour de l'ordi. \nIl a le droit à {0} tir(s).", nbTirDispoOrdi);
                     int colonneOrdi;
                     int ligneOrdi;
-
-
                     for (int nbTir = 0; nbTir < nbTirDispoOrdi; nbTir++)
                     {
                         char saisieColonneOrdi = 'W';
@@ -673,13 +684,14 @@ namespace ProjetInfo
 
                             }
                             while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
+                            
+                            Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
+                            Tirer(colonneOrdi, ligneOrdi, tabj1);
                         }
                         else
                         {
 
                         }
-                        Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
-                        Tirer(colonneOrdi, ligneOrdi, tabj1);
                         DefinirTableau(PA, 0, donnees, tabj1);
                         DefinirTableau(Cuir, 1, donnees, tabj1);
                         DefinirTableau(SM, 2, donnees, tabj1);
@@ -757,8 +769,7 @@ namespace ProjetInfo
                         ligne = Convert.ToInt16(saisieLigne);
                     }
                     ligne--;//pour que le numéro de ligne entré corresponde à la bonne ligne du plateau
-
-
+                    
                     Tirer(colonne, ligne, tabOrdi);
                     DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
                     DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
@@ -805,13 +816,14 @@ namespace ProjetInfo
                             saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
                         }
                         while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
-                    }
-                    else
-                    {
 
+                        /*else
+                        {
+
+                        }*/
+                        Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
+                        Tirer(colonneOrdi, ligneOrdi, tabj1);
                     }
-                    Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
-                    Tirer(colonneOrdi, ligneOrdi, tabj1);
                     DefinirTableau(PA, 0, donnees, tabj1);
                     DefinirTableau(Cuir, 1, donnees, tabj1);
                     DefinirTableau(SM, 2, donnees, tabj1);
@@ -856,13 +868,13 @@ namespace ProjetInfo
                 if (victoire == 1)
                 { Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours); }
                 if (victoire == 0)
-                { Console.WriteLine("Désolé vous avez perdu !\n Il vous a fallu {0} tours pour gagner.", nbTours); }
+                { Console.WriteLine("Désolé vous avez perdu !\n La partie a duré {0} tours.", nbTours); }
 
 
             }
 
 
-            Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours);
+            //Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours);
 
 
 
@@ -882,3 +894,221 @@ namespace ProjetInfo
         }
     }
 }
+/*else //nivOrdi == true, cad l'IA est intelligente
+                    {
+                        bool touche = false;
+                        int nbTir = 0;
+                        //do// for (int nbTir = 0; nbTir < nbTirDispoOrdi; nbTir++) tire 5 fois
+                        //{
+                            do
+                            {
+                                char saisieColonneOrdi = 'W';
+                                do
+                                {
+                                    colonneOrdi = r.Next(0, 10);
+                                    ligneOrdi = r.Next(0, 10);
+
+                                    if (colonneOrdi == 0)
+                                    {
+                                        saisieColonneOrdi = 'A';
+                                    }
+                                    if (colonneOrdi == 1)
+                                    {
+                                        saisieColonneOrdi = 'B';
+                                    }
+                                    if (colonneOrdi == 2)
+                                    {
+                                        saisieColonneOrdi = 'C';
+                                    }
+                                    if (colonneOrdi == 3)
+                                    {
+                                        saisieColonneOrdi = 'D';
+                                    }
+                                    if (colonneOrdi == 4)
+                                    {
+                                        saisieColonneOrdi = 'E';
+                                    }
+                                    if (colonneOrdi == 5)
+                                    {
+                                        saisieColonneOrdi = 'F';
+                                    }
+                                    if (colonneOrdi == 6)
+                                    {
+                                        saisieColonneOrdi = 'G';
+                                    }
+                                    if (colonneOrdi == 7)
+                                    {
+                                        saisieColonneOrdi = 'H';
+                                    }
+                                    if (colonneOrdi == 8)
+                                    {
+                                        saisieColonneOrdi = 'I';
+                                    }
+                                    if (colonneOrdi == 9)
+                                    {
+                                        saisieColonneOrdi = 'J';
+                                    }
+                                } while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
+                                Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
+                                TirerOrdi(colonneOrdi, ligneOrdi, tabj1, ref touche);
+nbTir++;
+                                Console.WriteLine("nbTir : " + nbTir);
+
+                            } while ((touche == false)&&(nbTir<nbTirDispoOrdi));
+                            if ((touche == true) && (nbTir<nbTirDispoOrdi))//vérifie le premier coup
+                            {
+                                Console.WriteLine("touche vaut true");
+                                touche = false;
+                                if (colonneOrdi != 9)
+                                {
+                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi+1) + (ligneOrdi + 1));
+                                    TirerOrdi(colonneOrdi + 1, ligneOrdi, tabj1, ref touche);
+
+nbTir++;
+                                    Console.WriteLine("nbTir : " + nbTir);
+                                    if ((touche == true) && (nbTir<nbTirDispoOrdi))
+                                    {
+                                        Console.WriteLine("touche vaut true");
+                                        int k = 2;
+                                        do
+                                        {
+                                            touche = false;
+                                            Console.WriteLine("L'ordi a tiré en " + (colonneOrdi + k) + (ligneOrdi + 1));
+                                            TirerOrdi(colonneOrdi + k, ligneOrdi, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            k++;
+                                        } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((colonneOrdi + k) <= 9));
+                                        //continue de tirer dans ce sens tant qu'il touche
+                                    }
+                                    else //c'est que le bateau est placé horizontalement
+                                    {
+                                        if ((ligneOrdi != 9) && (nbTir<nbTirDispoOrdi))
+                                        {
+                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 2));
+                                            TirerOrdi(colonneOrdi, ligneOrdi + 1, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            if (touche == true)
+                                            {
+                                                Console.WriteLine("touche vaut true");
+                                                int k = 2;
+                                                do
+                                                {
+                                                    touche = false;
+                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 1 + k));
+                                                    TirerOrdi(colonneOrdi, ligneOrdi + k, tabj1, ref touche);
+
+nbTir++;
+                                                    Console.WriteLine("nbTir : " + nbTir);
+                                                    k++;
+                                                } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((ligneOrdi + k) <= 9));
+                                                //continue de tirer dans ce sens tant qu'il touche
+                                            }
+                                        }
+                                        else //tire dans l'autre sens 
+                                        {
+                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + ligneOrdi);
+                                            TirerOrdi(colonneOrdi, ligneOrdi - 1, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            if ((touche == true) && (nbTir<nbTirDispoOrdi))
+                                            {
+                                                Console.WriteLine("touche vaut true");
+                                                int k = 2;
+                                                do
+                                                {
+                                                    touche = false;
+                                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi + 1) + (ligneOrdi + 1 -k));
+                                                    TirerOrdi(colonneOrdi, ligneOrdi - k, tabj1, ref touche);
+
+nbTir++;
+                                                    Console.WriteLine("nbTir : " + nbTir);
+                                                    k++;
+                                                } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((ligneOrdi - k) >= 0));
+                                                //continue de tirer dans ce sens tant qu'il touche
+                                            }
+                                        }
+                                    }
+                                }
+                                else //s'il est au bord du plateau, tire dans l'autre sens
+                                {
+                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi - 1) + (ligneOrdi + 1));
+                                    TirerOrdi(colonneOrdi - 1, ligneOrdi, tabj1, ref touche);
+
+nbTir++;
+                                    Console.WriteLine("nbTir : " + nbTir);
+                                    if ((touche == true) && (nbTir<nbTirDispoOrdi))
+                                    {
+                                        Console.WriteLine("touche vaut true");
+                                        int k = 2;
+                                        do
+                                        {
+                                            touche = false;
+                                            Console.WriteLine("L'ordi a tiré en " + (colonneOrdi -k) + (ligneOrdi + 1));
+                                            TirerOrdi(colonneOrdi - k, ligneOrdi, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            k++;
+                                        } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((colonneOrdi - k) >= 0));
+                                        //continue de tirer dans ce sens tant qu'il touche
+                                    }
+                                    else //c'est que le bateau est placé horizontalement
+                                    {
+                                        if ((ligneOrdi != 9) && (nbTir<nbTirDispoOrdi))
+                                        {
+                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 2));
+                                            TirerOrdi(colonneOrdi, ligneOrdi + 1, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            if (touche == true)
+                                            {
+                                                Console.WriteLine("touche vaut true");
+                                                int k = 2;
+                                                do
+                                                {
+                                                    touche = false;
+                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi+ (ligneOrdi + 1 + k));
+                                                    TirerOrdi(colonneOrdi, ligneOrdi + k, tabj1, ref touche);
+
+nbTir++;
+                                                    Console.WriteLine("nbTir : " + nbTir);
+                                                    k++;
+                                                } while ((nbTir<nbTirDispoOrdi)&& (touche == true) && ((ligneOrdi + k) <= 9));
+                                                //continue de tirer dans ce sens tant qu'il touche
+                                            }
+                                        }
+                                        else //tire dans l'autre sens 
+                                        {
+                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi));
+                                            TirerOrdi(colonneOrdi, ligneOrdi - 1, tabj1, ref touche);
+
+nbTir++;
+                                            Console.WriteLine("nbTir : " + nbTir);
+                                            if ((touche == true) && (nbTir<nbTirDispoOrdi))
+                                            {
+                                                Console.WriteLine("touche vaut true");
+                                                int k = 2;
+                                                do
+                                                {
+                                                    touche = false;
+                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 1 -k));
+                                                    TirerOrdi(colonneOrdi, ligneOrdi - k, tabj1, ref touche);
+nbTir++;
+                                                    Console.WriteLine("nbTir : " + nbTir);
+                                                    k++;
+                                                } while ((nbTir<nbTirDispoOrdi)&& (touche == true) && ((ligneOrdi - k) >= 0));
+                                                //continue de tirer dans ce sens tant qu'il touche
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                      //  } while (nbTir <= nbTirDispoOrdi);
+                        
+                    }*/
