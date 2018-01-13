@@ -1,0 +1,164 @@
+
+        static void Quitter(string answer, ref char[,] tab)
+        {
+            answer = "a";
+            while ((answer != "n") && (answer != "o"))
+            {
+                Console.WriteLine("Voulez vous vraiment quitter la partie ?");
+                answer = Console.ReadLine();
+                if (answer == "o")
+                {
+
+                }
+            }
+            answer = "a";
+            while ((answer != "n") && (answer != "o"))
+            {
+                Console.WriteLine("Voulez vous sauvegarder la partie ?");
+                answer = Console.ReadLine();
+                if (answer == "o")
+                {
+                    Sauvegarder(ref tab);
+                }
+            }
+
+        }
+
+
+        static void Sauvegarder(ref char[,] tab)
+        {
+            Console.WriteLine("Sous quel nom voulez-vous enregistrer votre partie ?");
+            string nom = Console.ReadLine();
+            string path = "E:\\Documents\\ENSC\\INFO\\Projet Info-Bataille Navale\\";
+            string format = ".txt";
+            string pathComplet = path + nom + format;
+            //String date = System.DateTime.Now.ToShortDateString();
+            //string presentation = "vous avez sauvegardé cette partie le " + date;
+            System.IO.File.WriteAllText(@pathComplet, "");// crée le fichier et enregistre le deuxième argument dedans
+            //string[] tabString = new string[10];//string(tab);
+            foreach (char line in tab)
+            {
+                Console.WriteLine("{0} ", line);
+            }
+            //tabString = Convert.ToString(tab);
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathComplet, true))
+            {
+                foreach (char line in tab)
+                {
+                    file.WriteLine("{0} ", line);
+                }
+                //file.WriteLine("tabString :"+tabString);
+                //file.WriteLine("tab:" + tab);
+            }
+
+        }
+
+        static void ReprendrePartie(ref bool bool1, ref char[,] tab)
+        {
+            bool1 = true;
+            string reponse = "a";
+            string nom;
+            string path = "E:\\Documents\\ENSC\\INFO\\Projet Info-Bataille Navale\\";
+            string format = ".txt";
+
+            while ((reponse != "o") && (reponse != "n"))
+            {
+                Console.WriteLine("Voulez-vous reprendre une partie en cours ? (o/n)");
+                reponse = Console.ReadLine();
+            }
+            if (reponse == "o")
+            {
+                Console.WriteLine("Veuillez entrer le nom de la partie à charger.");
+                nom = Console.ReadLine();
+                string pathComplet = path + nom + format;
+                if (System.IO.File.Exists(pathComplet))//vérifie l'existence du fichier
+                {
+                    //lecture 
+                    Console.WriteLine("le fichier existe");
+                    // string[] lines = System.IO.File.ReadAllLines(pathComplet);
+                    string[] lines = System.IO.File.ReadAllLines(pathComplet);
+                    System.Console.WriteLine("Contents of WriteLines2.txt = ");
+                    char[] tableau = new char[100];
+                    int k = 0;
+                    foreach (string line in lines)
+                    {
+                        // Use a tab to indent each line of the file.
+                        Console.Write("\t" + line[0]);
+                        Console.WriteLine("\t" + line.Length);
+                        tableau[k] = line[0];
+                        k++;
+                    }
+                    for (k = 0; k < 50; k++)
+                    {
+                        Console.Write(tableau[k] + " , ");
+                    }
+                    //int i = 0;
+                    int nbLines = 0;
+                    char symb;
+                    k = 0;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            if (k<tableau.Length)//foreach (string line in lines)
+                            {
+                                //symb = Convert.ToChar(line[0]);
+                                /*foreach (char letter in line)
+                                {
+                                    // Use a tab to indent each line of the file.
+                                    Console.WriteLine("\t" + line);
+                                    tab[nbLines+1, i] = letter;
+                                    //tableau[k] = line;
+                                    i++;
+
+                                }*/
+                                tab[i, j] = tableau[k];
+                                k++;
+                                nbLines++;
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("coucou !" + nbLines);
+                    //return tableau[];
+                }
+                /*else
+                {
+                    Console.WriteLine("Erreur ! Veuillez rentrer à nouveau le nom de la partie à charger.");
+                }*/
+            }
+        }
+
+        // 255,223,744
+
+
+
+
+
+
+        static void Main(string[] args)
+        {
+            //interface et choix de jeu
+            bool modeJeu = true; //par défaut le mode salvo est lancé
+            bool niveauOrdi = false; //par défaut le niveau facile est lancé
+            bool chargerPartie = false;
+            char[,] tabj1 = new char[10, 10];
+            char[,] tabOrdi = new char[10, 10];
+            int nbTours = 0;
+
+            PresenterJeu(ref modeJeu, ref niveauOrdi); //faut placer les arguments en références pour qu'ils soient effectivement modifiés
+            ReprendrePartie(ref chargerPartie, ref tabj1);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Console.Write(tabj1[i, j] + " , ");
+                }
+            }
+
+                    /*if (chargerPartie==true)
+                    {*/
+                    DessinerPlateau(tabj1);
+           // }
