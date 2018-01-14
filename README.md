@@ -9,12 +9,174 @@ namespace ProjetInfo
 {
     class Program
     {
+        //BATAILLE NAVALE SALVO
+
+        /*
+         * PROJET IPROG 2017 - ENSC 1A
+         * Auteurs : BOUQUET Antoine, CANTAGREL Alice 
+         * TD 3
+         * Objectif : créer une interface de jeu de bataille navale contre une IA.
+         */
+        static void DebuterPartie(ref bool bool1, ref bool bool2, ref bool bool3, ref char[,] tab, ref char[,] tab1, ref int[] donnees1, ref int[] donnees2)
+        {
+            /*procédure qui présente le jeu.
+            * Arguments : 
+            *     - bool1 : booléen, réponse du joueur pour le mode de jeu à conserver
+            *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi à conserver
+            *     - bool3 : booléen, réponse du joueur pour le chargement de la partie à conserver
+            *     - tab : tableau de charactères à deux dimensions, plateau de jeu à conserver
+            *     - tab1 : tableau de charactères à deux dimensions, plateau de jeu à conserver
+            *     - donnees1 : tableau d'entier, données de jeu à conserver
+            *     - donnees2 : tableau d'entier, données de jeu à conserver
+            * Variables : 
+            *     - reponse : string, contient la réponse du joueur entrée sur la console
+            *     - reponse2 : string, contient la réponse du joueur entrée sur la console
+            *     - reponse3 : string, contient la réponse du joueur entrée sur la console
+            * Appel : 
+            *     - ReprendrePartie()
+            * Préconditions : aucune
+            * Postconditions : modifie les valeurs de bool1 et bool2
+            */
+            Console.WriteLine("######################## BATAILLE NAVALE ########################");
+            Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
+            string reponse = "a";
+            while ((reponse != "o") && (reponse != "n"))
+            {
+
+                Console.WriteLine("Voulez -vous lire les règles ? (o/n)");
+                reponse = Console.ReadLine();
+            }
+            if (reponse == "o")
+            {
+                Console.WriteLine("##### REGLES #####\n\nLe but de la bataille navale est de couler tous les bateaux de son adversaire.\nDans un premier temps, chaque joueur place ses bateaux sur le plateau sans voir ceux de son adversaire.\nEnsuite, chacun à leur tour, les joueurs essaient de trouver et de couler les bateaux de l'adversaire.\nChaque joueur dispose de 5 bateaux longueurs différentes: \n- Un porte-avion d'une longueur de 5 cases\n- Un cuirassé d'une longueur de 4 cases \n- Un sous-marin et un croiseur d'une longueur de 3 cases \n- Un contre-torpilleur d'une longueur de 2 cases \nCe jeu dispose de deux modes de jeux suivant la façon de tirer :\n- le mode classique : A chaque tir annoncé par un joueur (par exemple, 'case C5'), le second joueur regarde si l’un de ses navires occupe la case visée. \nIl doit indiquer à l'autre joueur s'il a touché ('Touché') ou coulé ('Touché coulé') un navire ou bien tiré dans l'eau ('Raté').\n- mode salvo : chaque joueur annonce plusieurs tirs à la fois. Le nombre de tirs simultanés est de 5 initialement. Ce nombre diminue en fonction du nombre de bateaux déjà coulés.\nQuand un joueur détruit un navire de son adversaire, il ne tire plus que 4 coups au lieu de 5. Quand 2 bateaux sont détruits, le joueur ennemi tire uniquement 3 coups. \nQuand 3 navires sont détruits, le joueur opposé ne tire plus que 2 coups, etc.");
+            }         
+            
+            
+            ReprendrePartie(ref bool3, ref tab, ref tab1, ref donnees1, ref donnees2, ref bool1, ref bool2);
+            
+            if (bool3==false)
+                { 
+                string reponse2 = "a";
+                while ((reponse2 != "s") && (reponse2 != "n"))
+                {
+                    Console.WriteLine("Avec quel mode voulez-vous jouer ? Tapez 's' pour le mode Salvo ou 'n' pour le mode normal");
+                    reponse2 = Console.ReadLine();
+                }
+                if (reponse2 == "n")
+                {
+                    bool1 = false; //mode de jeu
+                }
+                string reponse3 = "a";
+                while ((reponse3 != "f") && (reponse3 != "i"))
+                {
+                    Console.WriteLine("Quel niveau souhaitez-vous pour l'ordinateur ? Tapez 'f' pour facile ou 'i' pour intelligent");
+                    reponse3 = Console.ReadLine();
+                }
+                if (reponse3 == "i")
+                {
+                    bool2 = true; //niveau de difficulté
+                }
+            }
+        }
+
+        static void InitialiserPlateau(char[,] tab, char[] tabBateau, int nb, ref int[] data)
+        {
+            /*procédure qui place aléatoirement les bateaux  sur le plateau de jeu correspondant
+             * Arguments : 
+             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher
+             *     - tabBateau : tableau de char à une dimension, représente un bateau. Concrètement, le symbole contenu dans chacune des cases de ce tableau indique l'état du bateau (touché ou non)
+             *     - nb : entier, permet d'écrire dans data à partir d'un certain rang
+             *     - data : tableau d'entiers à une dimension, contient les éléments importants permettant de situer chaque bateau sur le plateau de jeu de l'IA. La procédure permet de modifier ce tableau.
+             * Variables : 
+             *     - r : random
+             *     - choix : entier, détermine le placement vertical ou horizontal
+             *     - test : booléen, sert à détermine si il y a la place de placer tabBateau à l'endroit choisi 
+             *     - indiceI : entier, valeur de i à récupérer dans data
+             *     - indiceJ : entier, valeur de j à récupérer dans data 
+             *     - i : entier, valeur prise aléatoirement entre 0 et 9 pour déterminer la première case de tab où placer tabBateau (ligne)
+             *     - j : entier, valeur prise aléatoirement entre 0 et 9 pour déterminer la première case de tab où placer tabBateau (colonne)
+             *     - k : entier, compteur de la taille de tabBateau
+             * Préconditions : dans le contexte où cette procédure sera utilisée, nb doit être inférieur à 5 car data.Length vaudra 20
+             * Postconditions : les valeurs de data ont été modifiées
+             */
+            Random r = new Random();
+            int choix;
+            bool test;
+            int indiceI; //à récupérer, premier case du bateau
+            int indiceJ;//à récupérer, premier case du bateau
+            do
+            {
+                choix = r.Next(2);
+                test = true;
+
+                if (choix == 0)//place verticalement
+                {
+
+                    int i = r.Next(10);
+                    int j = r.Next(10 - tabBateau.Length);
+                    indiceI = i;
+                    indiceJ = j;
+                    //teste si le tableau est vide là où on veut écrire
+                    int k; //compteur de la taille du tableau du bateau
+                    for (k = 0; k < tabBateau.Length; k++)
+                    {
+                        if (tab[i, j + k] != 0)
+                        {
+                            test = false;
+                        }
+                    }
+
+                    if (test == true)
+                    {
+                        for (k = 0; k < tabBateau.Length; k++)
+                        {
+                            tab[i, j + k] = tabBateau[k];
+                        }
+                    }
+
+                }
+                else// place verticalement
+                {
 
 
+                    int j = r.Next(10);
+                    int i = r.Next(10 - tabBateau.Length);
+                    indiceI = i;
+                    indiceJ = j;
+                    //teste si le tableau est vide là où on veut écrire
+                    int k; //compteur de la taille du tableau du bateau
+                    for (k = 0; k < tabBateau.Length; k++)
+                    {
+                        if (tab[i + k, j] != 0)
+                        {
+                            test = false;
+                        }
+                    }
+
+                    if (test == true)
+                    {
+                        for (k = 0; k < tabBateau.Length; k++)
+                        {
+                            tab[i + k, j] = tabBateau[k];
+                        }
+                    }
+                }
+            } while (test == false);
+            //data = { tabBateau.Length, choix, indiceI; indiceJ};
+            data[0 + nb * 4] = tabBateau.Length;
+            data[1 + nb * 4] = choix;
+            data[2 + nb * 4] = indiceI;
+            data[3 + nb * 4] = indiceJ;
+        }
 
         static void DessinerPlateau(char[,] tab)
         {
-            //procédure qui trace le plateau de jeu, i.e. un tableau de case 10x10
+            /*procédure qui trace le plateau de jeu, i.e. un tableau de case 10x10
+             * Argument : 
+             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher
+             * Préconditions : aucune
+             * Postconditions : aucune
+             */
             Console.Write("   *  A  *  B  *  C  *  D  *  E  *  F  *  G  *  H  *  I  *  J  *\n");
             for (int i = 0; i < 10; i++)
             {
@@ -46,284 +208,16 @@ namespace ProjetInfo
             }
         }
 
-
-
-
-        static void InitialiserPlateau(char[,] tab, char[] tabBateau)
-        {
-            Random r = new Random();
-            int choix;
-            bool test;
-            do
-            {
-                choix = r.Next(2);
-                test = true;
-                if (choix == 0)
-                {
-
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabBateau.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabBateau.Length; k++)
-                    {
-                        if (tab[i, j + k] == '#')
-                        {
-                            test = false;
-                        }
-                    }
-
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabBateau.Length; k++)
-                        {
-                            tab[i, j + k] = tabBateau[k];
-                        }
-                    }
-                }
-
-
-                else
-                {
-
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabBateau.Length);
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabBateau.Length; k++)
-                    {
-                        if (tab[i + k, j] == '#') //(tab[i + k, j] != 0)
-                        {
-                            test = false;
-                        }
-                    }
-
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabBateau.Length; k++)
-                        {
-                            tab[i + k, j] = tabBateau[k];
-                        }
-                    }
-                }
-            } while (test == false);
-        }
-
-
-
-
-        static void InitialiserPlateauOrdi(char[,] tab, char[] tabBateau, int nb, ref int[] data)
-        {
-            Random r = new Random();
-            int choix;
-            bool test;
-            int indiceI; //à récupérer, premier case du bateau
-            int indiceJ;
-            do
-            {
-                choix = r.Next(2);
-                test = true;
-
-                if (choix == 0)
-                {
-
-                    int i = r.Next(10);
-                    int j = r.Next(10 - tabBateau.Length);
-                    indiceI = i;
-                    indiceJ = j;
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabBateau.Length; k++)
-                    {
-                        if (tab[i, j + k] != 0)
-                        {
-                            test = false;
-                        }
-                    }
-
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabBateau.Length; k++)
-                        {
-                            tab[i, j + k] = tabBateau[k];
-                        }
-                    }
-
-                }
-                else
-                {
-
-
-                    int j = r.Next(10);
-                    int i = r.Next(10 - tabBateau.Length);
-                    indiceI = i;
-                    indiceJ = j;
-                    //teste si le tableau est vide là où on veut écrire
-                    int k; //compteur de la taille du tableau du bateau
-                    for (k = 0; k < tabBateau.Length; k++)
-                    {
-                        if (tab[i + k, j] != 0)
-                        {
-                            test = false;
-                        }
-                    }
-
-                    if (test == true)
-                    {
-                        for (k = 0; k < tabBateau.Length; k++)
-                        {
-                            tab[i + k, j] = tabBateau[k];
-                        }
-                    }
-
-                }
-            } while (test == false);
-            //data = { tabBateau.Length, choix, indiceI; indiceJ};
-            data[0 + nb * 4] = tabBateau.Length;
-            data[1 + nb * 4] = choix;
-            data[2 + nb * 4] = indiceI;
-            data[3 + nb * 4] = indiceJ;
-
-            //return data;
-        }
-
-
-        static int LirePlateau(char[,] tab)
-        {
-            int nbDiese = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-
-                    if (tab[i, j] == '#')
-                    {
-                        nbDiese++;
-                        /*donnees[k, 0] = i;
-                        donnees[k, 1] = j;*/
-                    }
-                }
-            }
-            return nbDiese;
-        }
-
-
-
-        static void TirerOrdi(int colonne, int ligne, char[,] tableau, ref bool touche)
-        {
-            if (tableau[ligne, colonne] == 0)
-            {
-                tableau[ligne, colonne] = 'O'; //raté, tir dans l'eau
-                Console.WriteLine("Raté !");
-            }
-            else if ((tableau[ligne, colonne] == '#') || (tableau[ligne, colonne] == ' '))//cad sur un bateau
-            {
-                tableau[ligne, colonne] = 'X'; //touché
-                Console.WriteLine("Touché !");
-                touche = true;
-            }
-            else if ((tableau[ligne, colonne] == 'O') || (tableau[ligne, colonne] == 'X'))
-            {
-                Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit.");
-            }
-        }
-
-
-
-            static void PresenterJeu(ref bool bool1, ref bool bool2)
-        {
-            Console.WriteLine("######################## BATAILLE NAVALE ########################");
-            Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
-            string reponse = "a";
-            while ((reponse != "o") && (reponse != "n"))
-            {
-
-                Console.WriteLine("Voulez -vous lire les règles ? (o/n)");
-                reponse = Console.ReadLine();
-            }
-            if (reponse == "o")
-            {
-                Console.WriteLine("##### REGLES #####\n\nLe but de la bataille navale est de couler tous les bateaux de son adversaire.\nDans un premier temps, chaque joueur place ses bateaux sur le plateau sans voir ceux de son adversaire.\nEnsuite, chacun à leur tour, les joueurs essaient de trouver et de couler les bateaux de l'adversaire.\nChaque joueur dispose de 5 bateaux longueurs différentes: \n- Un porte-avion d'une longueur de 5 cases\n- Un cuirassé d'une longueur de 4 cases \n- Un sous-marin et un croiseur d'une longueur de 3 cases \n- Un contre-torpilleur d'une longueur de 2 cases \nCe jeu dispose de deux modes de jeux suivant la façon de tirer :\n- le mode classique : A chaque tir annoncé par un joueur (par exemple, 'case C5'), le second joueur regarde si l’un de ses navires occupe la case visée. \nIl doit indiquer à l'autre joueur s'il a touché ('Touché') ou coulé ('Touché coulé') un navire ou bien tiré dans l'eau ('Raté').\n- mode salvo : chaque joueur annonce plusieurs tirs à la fois. Le nombre de tirs simultanés est de 5 initialement. Ce nombre diminue en fonction du nombre de bateaux déjà coulés.\nQuand un joueur détruit un navire de son adversaire, il ne tire plus que 4 coups au lieu de 5. Quand 2 bateaux sont détruits, le joueur ennemi tire uniquement 3 coups. \nQuand 3 navires sont détruits, le joueur opposé ne tire plus que 2 coups, etc.");
-            }
-            string reponse2 = "a";
-            while ((reponse2 != "s") && (reponse2 != "n"))
-            {
-                Console.WriteLine("Avec quel mode voulez-vous jouer ? Tapez 's' pour le mode Salvo ou 'n' pour le mode normal");
-                reponse2 = Console.ReadLine();
-            }
-            if (reponse2 == "n")
-            {
-                bool1 = false; //mode de jeu
-            }
-            string reponse3 = "a";
-            while ((reponse3 != "f") && (reponse3 != "i"))
-            {
-                Console.WriteLine("Quel niveau souhaitez-vous pour l'ordinateur ? Tapez 'f' pour facile ou 'i' pour intelligent");
-                reponse3 = Console.ReadLine();
-            }
-            if (reponse3 == "i")
-            {
-                bool2 = true; //niveau de difficulté
-            }
-        }
-
-
-
-        static void TesterToucheCoule(char[] tabBateau, ref int nbBateauCoulé, ref bool coulé)
-        {
-            bool testBateau = true;
-            for (int k = 0; k < tabBateau.Length; k++)
-            {
-                if (tabBateau[k] != 'X')
-                {
-                    testBateau = false;
-                }
-            }
-            if (testBateau == true)
-            {
-                Console.WriteLine("COULE !");
-                nbBateauCoulé++;
-                coulé = true;
-            }
-        }
-
-
-
-
-
-        static void FinirJeu()
-        {
-            //score ?
-            Console.WriteLine("Merci d'avoir joué ! Nous espérons vous revoir bientôt !");
-            Console.WriteLine("Ce programme a été développé par Antoine BOUQUET et Alice CANTAGREL dans le cadre du projet informatique IPROG de première année à l'ENSC.");
-        }
-
-
-        static void DefinirTableau(char[] tabBateau, int a, int[] donnees, char[,] tab)
-        {
-
-            if (donnees[1 + a * 4] == 0)
-            {
-                for (int k = 0; k < donnees[a * 4]; k++)
-                {
-                    tabBateau[k] = tab[donnees[2 + a * 4], (donnees[3 + a * 4] + k)];
-                }
-            }
-            else
-            {
-                for (int k = 0; k < tabBateau.Length; k++)
-                {
-                    tabBateau[k] = tab[(donnees[2 + a * 4] + k), donnees[3 + a * 4]];
-                }
-            }
-
-        }
-
-
-
-
         static void Tirer(int colonne, int ligne, char[,] tableau)
         {
+            /*procédure qui indique l'action réalisée sur le plateau après le tir del'IA
+            * Arguments : 
+            *     - colonne : entier, colonne de la case où l'IA a tiré
+            *     - ligne : entier, ligne de la case où l'IA a tiré 
+            *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
+            * Préconditions : colonne et ligne doivent représenter des indices de lignes et colonnes à l'intérieur de tableau
+            * Postconditions : aucune
+            */
 
             if (tableau[ligne, colonne] == 0)
             {
@@ -340,8 +234,442 @@ namespace ProjetInfo
             { Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit."); } // ATTENTION ! DEPEND DU MODE DE JEU
 
         }
+
+        static void TirerOrdi(int colonne, int ligne, char[,] tableau, ref bool touche)
+        {
+            /*procédure qui indique l'action réalisée sur le plateau après le tir del'IA
+             * Arguments : 
+             *     - colonne : entier, colonne de la case où l'IA a tiré
+             *     - ligne : entier, ligne de la case où l'IA a tiré 
+             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
+             *     - touche : booléen, détermine si le tir à touché un bateau ou non
+             * Préconditions : colonne et ligne doivent représenter des indices de lignes et colonnes à l'intérieur de tableau
+             * Postconditions : modifie la valeur de touche
+             */
+            if (tableau[ligne, colonne] != '#')
+            {
+                tableau[ligne, colonne] = 'O'; //raté, tir dans l'eau
+                Console.WriteLine("Raté !");
+                touche = false;
+            }
+            else //cad sur un bateau
+            {
+                tableau[ligne, colonne] = 'X'; //touché
+                Console.WriteLine("Touché !");
+                touche = true;
+            }
+
+        }
+
+        static void ChercherCible(ref int orientation,ref int pas, ref int colonne, ref int ligne, char[,] tableau, ref bool touche)
+        {
+            /*procédure qui cherche où sont les bateaux autour après avoir touché un bateau
+             * Arguments : 
+             *     - orientation : entier , direction dans laquelle l'ordi cherche sa prochaine cible (droite,gauche,bas, haut)
+             *     - colonne : entier, colonne de la case où l'IA a tiré
+             *     - ligne : entier, ligne de la case où l'IA a tiré 
+             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
+             *     - touche : booléen, détermine si le tir à touché un bateau ou non
+             * Variable :
+             *     - saisieColonne : charactère, lettre de la colonne où l'IA a tiré
+             * Appel : 
+             *     - TirerOrdi()
+             *     - TraduireIntEnChar()
+             * Préconditions : 
+             *     - Mode de jeu IA "intelligente"
+             *     - colonne et ligne doivent représenter des indices de lignes et colonnes à l'intérieur de tableau
+             * Postconditions : modifie la valeur de touche
+             */
+            char saisieColonne;
+            if (colonne + pas <= 9 && orientation == 0)
+            {
+                if (tableau[colonne + pas, ligne] == 'O' || tableau[colonne + pas, ligne] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne + pas, ligne, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne + pas);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + 1));
+                }
+            }
+            else if (colonne == 9 && orientation == 0)
+            {
+                if (tableau[colonne - pas, ligne] == 'O' || tableau[colonne - pas, ligne] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne - pas, ligne, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne - pas);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + 1));
+                }
+            }
+            else if (colonne - pas >= 0 && orientation == 1)
+            {
+                if (tableau[colonne - pas, ligne] == 'O' || tableau[colonne - pas, ligne] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne - pas, ligne, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne - pas);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + 1));
+                }
+            }
+            else if (colonne == 0 && orientation == 1)
+            {
+                if (tableau[colonne + pas, ligne] == 'O' || tableau[colonne + pas, ligne] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne + pas, ligne, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne + pas);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + 1));
+                }
+            }
+            else if (ligne + pas <= 9 && orientation == 2)
+            {
+                if (tableau[colonne, ligne + pas] == 'O' || tableau[colonne, ligne + pas] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne, ligne + pas, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + pas + 1));
+                }
+            }
+            else if (ligne == 9 && orientation == 2)
+            {
+                if (tableau[colonne, ligne - pas] == 'O' || tableau[colonne, ligne - pas] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne, ligne - pas, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne - pas + 1));
+                }
+            }
+            else if (ligne - pas >= 0 && orientation == 3)
+            {
+                if (tableau[colonne, ligne - pas] == 'O' || tableau[colonne, ligne - pas] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne, ligne - pas, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne - pas + 1));
+                }
+            }
+            else if (ligne == 0 && orientation == 3)
+            {
+                if (tableau[colonne, ligne - pas] == 'O' || tableau[colonne, ligne - pas] == 'X')
+                {
+                    orientation++;
+                    pas = 1;
+                }
+                else
+                {
+                    TirerOrdi(colonne, ligne + pas, tableau, ref touche);
+                    saisieColonne = TraduireIntEnChar(colonne);
+                    Console.WriteLine("L'ordi a tiré en : " + saisieColonne + (ligne + pas + 1));
+                }
+            }
+        }
+
+        static void DefinirTableau(char[] tabBateau, int a, int[] donnees, char[,] tab)
+        {
+            /*procédure qui met à jour tabBateau  
+             * Arguments : 
+             *     - tabBateau : tableau de char à une dimension, bateau à tester
+             *     - a : entier, numéro du bateau correspondant à tabBateau donc du rang à partir duquel il faut lire dans donnees
+             *     - donnees : tableau d'entiers à une dimension, contient les donnees relatives à tabBateau
+             *     - tab : tableau de char à deux dimensions, plateau de jeu
+             * Préconditions : a compris entre 0 et 4 inclus
+             * Postconditions : aucune 
+             */
+            if (donnees[1 + a * 4] == 0)
+            {
+                for (int k = 0; k < tabBateau.Length; k++)
+                {
+                    tabBateau[k] = tab[donnees[2 + a * 4], (donnees[3 + a * 4] + k)];
+                }
+            }
+            else
+            {
+                for (int k = 0; k < tabBateau.Length; k++)
+                {
+                    tabBateau[k] = tab[(donnees[2 + a * 4] + k), donnees[3 + a * 4]];
+                }
+            }
+
+        }
+
+        static void TesterToucheCoule(char[] tabBateau, ref int nbBateauCoulé, ref bool coulé)
+        {
+            /*procédure qui teste si le bateau correspondant à tabBateau est touché coulé.
+             * Arguments : 
+             *     - tabBateau : tableau de char à une dimension, bateau à tester
+             *     - nbBateauCoulé : entier, compte le nombre de bateau coulé par le joueur
+             *     - coulé : booléen, indique si le bateau est coulé
+             * Variables : 
+             *     - testBateau : booléen, teste si toutes les cases de tabBateau sont touchées
+             * Préconditions : aucune
+             * Postconditions : modifie les valeurs de nbBateauCoulé et coulé
+             */
+            bool testBateau = true;
+            for (int k = 0; k < tabBateau.Length; k++)
+            {
+                if (tabBateau[k] != 'X')
+                {
+                    testBateau = false;
+                }
+            }
+            if (testBateau == true)
+            {
+                Console.WriteLine("COULE !");
+                nbBateauCoulé++;
+                coulé = true;
+            }
+        }
+
+        static void FinirJeu()
+        {
+            /*procédure qui affiche le texte de fin de jeu.
+             * Préconditions : aucune
+             * Postconditions : aucune
+             */
+            //score ?
+            Console.WriteLine("Merci d'avoir joué ! Nous espérons vous revoir bientôt !");
+            Console.WriteLine("Ce programme a été développé par Antoine BOUQUET et Alice CANTAGREL dans le cadre du projet informatique IPROG de première année à l'ENSC.");
+        }
+
+        static void Quitter(ref char[,] tab, ref char[,] tab2, ref int[] donnees1, ref int[] donnees2, ref bool bool1, ref bool bool2)
+        {
+            /*procédure qui s'occupe de quitter la partie en cours.
+             * Arguments : 
+             *     - tab : tableau de char à deux dimensions, plateau de jeu
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
+             *     - donnees1 : tableau d'entier, données de jeu 
+             *     - donnees2 : tableau d'entier, données de jeu 
+             *     - bool1 : booléen, réponse du joueur pour le mode de jeu
+             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi 
+             * Variable :
+             *     - answer : string, correspond à la réponse que le joueur aura rentrée
+             * Appel :
+             *     - Sauvegarder(); 
+             * Préconditions : aucune
+             * Postconditions : retourne un entier
+             */
+            string answer = "a";
+            while ((answer != "n") && (answer != "o"))
+            {
+                Console.WriteLine("Voulez vous vraiment quitter la partie ?");
+                answer = Console.ReadLine();
+                if (answer == "o")
+                {
+                    answer = "a";
+                    while ((answer != "n") && (answer != "o"))
+                    {
+                        Console.WriteLine("Voulez vous sauvegarder la partie ?");
+                        answer = Console.ReadLine();
+                        if (answer == "o")
+                        {
+                            Sauvegarder(ref tab, ref tab2, ref donnees1, ref donnees2, ref bool1, ref bool2);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        static void Sauvegarder(ref char[,] tab, ref char[,] tab2, ref int[] donnees1, ref int[] donnees2, ref bool bool1, ref bool bool2)
+        {
+            /* procédure qui permet de sauvegarder une partie 
+             * Arguments :
+             *     - tab : tableau de char à deux dimensions, plateau de jeu
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
+             *     - donnees1 : tableau d'entier, données de jeu 
+             *     - donnees2 : tableau d'entier, données de jeu 
+             *     - bool1 : booléen, réponse du joueur pour le mode de jeu
+             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi 
+             * Variables :
+             *     - nom : string, nom du fichier
+             *     - path : string, chemin du fichier
+             *     - format : string, extension du fichier
+             *     - pathComplet : string, chemin complet du fichier
+             *     - date : string, date de sauvegarde
+             *     - presentation : string, texte de présentation à écrire dans le fichier
+             * Préconditions : aucune
+             * Postconditions : créer un fichier non vide
+             */
+
+            Console.WriteLine("Sous quel nom voulez-vous enregistrer votre partie ?");
+            string nom = Console.ReadLine();
+            string path = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+            string format = ".txt";
+            string pathComplet = path + nom + format;
+            System.IO.File.WriteAllText(@pathComplet, "");// crée le fichier et enregistre le deuxième argument dedans
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathComplet, true))
+            {
+                foreach (char line in tab)
+                {
+                    file.WriteLine("{0} ", line);
+                }
+                foreach (char line in tab2)
+                {
+                    file.WriteLine("{0} ", line);
+                }
+                foreach (int line in donnees1)
+                {
+                    file.WriteLine("{0} ", line);
+                }
+                foreach (int line in donnees2)
+                {
+                    file.WriteLine("{0} ", line);
+                }
+                file.WriteLine("{0}", bool1);
+                file.WriteLine("{0}", bool2);
+
+            }
+
+        }
+
+        static void ReprendrePartie(ref bool bool1, ref char[,] tab, ref char[,] tab2, ref int[] donnees1, ref int[] donnees2, ref bool bool2, ref bool bool3)
+        {
+            /* procédure qui premet de charger une partie
+             * Arguments :
+             *     - bool1 : booléen, réponse du joueur pour le chargement de partie
+             *     - tab : tableau de char à deux dimensions, plateau de jeu
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
+             *     - donnees1 : tableau d'entier, données de jeu 
+             *     - donnees2 : tableau d'entier, données de jeu 
+             *     - bool2 : booléen, réponse du joueur pour le mode de jeu
+             *     - bool3 : booléen, réponse du joueur pour le niveau de l'ordi 
+             * Variables :
+             *     - nom : string, nom du fichier
+             *     - path : string, chemin du fichier
+             *     - format : string, extension du fichier
+             *     - pathComplet : string, chemin complet du fichier
+             *     - date : string, date de sauvegarde
+             *     - presentation : string, texte de présentation à écrire dans le fichier
+             * Préconditions : aucune
+             * Postconditions : créer un fichier non vide
+             */
+            bool1 = true;
+            string reponse = "a";
+            string nom;
+            string path = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+            string format = ".txt";
+
+            while ((reponse != "o") && (reponse != "n"))
+            {
+                Console.WriteLine("Voulez-vous reprendre une partie en cours ? (o/n)");
+                reponse = Console.ReadLine();
+            }
+            if (reponse == "o")
+            {
+                Console.WriteLine("Veuillez entrer le nom de la partie à charger.");
+                nom = Console.ReadLine();
+                string pathComplet = path + nom + format;
+                if (System.IO.File.Exists(pathComplet))//vérifie l'existence du fichier
+                {
+                    //lecture 
+                    Console.WriteLine("le fichier existe");
+                    // string[] lines = System.IO.File.ReadAllLines(pathComplet);
+                    string[] lines = System.IO.File.ReadAllLines(pathComplet);
+                    System.Console.WriteLine("Contents of WriteLines2.txt = ");
+                    char[] tableau = new char[100];
+                    char[] tableau2 = new char[100];
+
+                    int k = 0;
+                    foreach (string line in lines)
+                    {
+                        if (k < 100)
+                        {
+                            tableau[k] = line[0];
+                            
+                        }
+                        
+                        if (k >= 100 && k < 200)
+                        {
+                            tableau2[k - 100] = line[0];
+                           
+                        }
+                   
+                        if (k > 199 && k < 220)
+                        {
+                            donnees1[k - 200] = Convert.ToInt32(line[0])-48;
+                           
+                        }
+                        if (k > 219 && k < 240)
+                        {
+                            donnees2[k - 220] = Convert.ToInt32(line[0])-48;
+                           
+                        }
+                        k++;
+                        bool2 = Convert.ToBoolean(lines[240]);
+                        bool3 = Convert.ToBoolean(lines[241]);
+                    }
+                    k = 0;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            if (k < 100)
+                            {
+                                tab[i, j] = tableau[k];
+                                k++;
+
+                            }
+                        }
+                    }
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++)
+                        {
+                            if (k < 200)
+                            {
+                                tab2[i, j] = tableau2[k - 100];
+                                k++;
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        }
+
         static int TraduireStringEnInt(string saisieColonne)
         {
+            /*fonction qui traduit les réponses en string du joueur en entier.
+             * Argument : 
+             *     - saisieColonne : string, correspond à la réponse que le joueur aura rentrée
+             * Variable :
+             *     - colonne : entier, correspond au numéro de la colonne du plateau de jeu 
+             * Préconditions : aucune
+             * Postconditions : retourne un entier
+             */
             int colonne = -1;
             if (saisieColonne == "A")
             {
@@ -388,6 +716,14 @@ namespace ProjetInfo
 
         static char TraduireIntEnChar(int colonne)
         {
+            /*fonction qui traduit le numéro de colonne choisie par l'IA en sa lettre sur le plateau.
+             * Argument : 
+             *     - colonne : int, correspond au numéro de la colonne choisie par l'IA
+             * Variable :
+             *     - saisieColonne : char, correspond à la lettre du plateau de jeu équivalente au numéro de la colonne du tableau du plateau de jeu
+             * Préconditions : aucune
+             * Postconditions : retourne un char
+             */
             char saisieColonne = 'W';
             if (colonne == 0)
             {
@@ -432,154 +768,52 @@ namespace ProjetInfo
             return saisieColonne;
         }
 
-
-        static void Quitter(string answer, ref char[,] tab)
+        static int LirePlateau(char[,] tab)
         {
-            answer = "a";
-            while ((answer != "n") && (answer != "o"))
+            /*fonction qui lit le plateau de jeu pour renvoyer le nombre de dièses qu'il contient.
+             * Argument : 
+             *     - tab : tableau de char à deux dimensions, tableau à lire
+             * Variable : 
+             *     - nbDiese : entier, compteur du nombre de dièses présent dans tab 
+             * Préconditions : aucune
+             * Postconditions : retourne un entier
+             * NB : cette fonction a été utilisée afin d'effectuer des tests au cours de notre développement pour vérifier que le bon nombre de cases du plateau était occupées par des bateaux 
+             * cad 17 (= 5 + 4 + 3 + 3 + 2)
+             */
+            int nbDiese = 0;
+            for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine("Voulez vous vraiment quitter la partie ?");
-                answer = Console.ReadLine();
-                if (answer == "o")
+                for (int j = 0; j < 10; j++)
                 {
-                    answer = "a";
-                    while ((answer != "n") && (answer != "o"))
-                    {
-                        Console.WriteLine("Voulez vous sauvegarder la partie ?");
-                        answer = Console.ReadLine();
-                        if (answer == "o")
-                        {
-                            Sauvegarder(ref tab);
-                        }
 
+                    if (tab[i, j] == '#')
+                    {
+                        nbDiese++;
+                        /*donnees[k, 0] = i;
+                        donnees[k, 1] = j;*/
                     }
                 }
             }
-
-
+            return nbDiese;
         }
-
-
-        static void Sauvegarder(ref char[,] tab)
-        {
-            Console.WriteLine("Sous quel nom voulez-vous enregistrer votre partie ?");
-            string nom = Console.ReadLine();
-            string path = "H:\\test-projet info\\";
-            string format = ".txt";
-            string pathComplet = path + nom + format;
-            String date = System.DateTime.Now.ToShortDateString();
-            string presentation = "vous avez sauvegardé cette partie le " + date;
-            System.IO.File.WriteAllText(@pathComplet, presentation);// crée le fichier et enregistre le deuxième argument dedans
-            string[,] tabString = new string[10, 10];
-            //tabString = Convert.ToString(tab);
-
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathComplet, true))
-            {
-                //file.WriteLine(DessinerPlateau(tab));
-            }
-
-        }
-
-
-
 
         static void Main(string[] args)
         {
+            Random r = new Random();
             //interface et choix de jeu
             bool modeJeu = true; //par défaut le mode salvo est lancé
-            bool niveauOrdi = false; //par défaut le niveau facile est lancé
-            PresenterJeu(ref modeJeu, ref niveauOrdi); //faut placer les arguments en références pour qu'ils soient effectivement modifiés
-
-
+            bool niveauOrdi = false;//par défaut le niveau facile est lancé
+            bool chargerpartie = false;
             char[,] tabj1 = new char[10, 10];
             char[,] tabOrdi = new char[10, 10];
-            int nbTours = 0;
-
-            //Création des bateaux
-            char[] PA = { '#', '#', '#', '#', '#' }; //PorteAvion
-            char[] Cuir = { '#', '#', '#', '#' }; //Cuirassé
-            char[] SM = { '#', '#', '#' }; //SousMarin
-            char[] Crois = { '#', '#', '#' }; //Croiseur
-            char[] CT = { '#', '#' };//ContreTorpilleur
-            char[] PAOrdi = { ' ', ' ', ' ', ' ', ' ' }; //PorteAvion
-            char[] CuirOrdi = { ' ', ' ', ' ', ' ' }; //Cuirassé
-            char[] SMOrdi = { ' ', ' ', ' ' }; //SousMarin
-            char[] CroisOrdi = { ' ', ' ', ' ' }; //Croiseur
-            char[] CTOrdi = { ' ', ' ' };//ContreTorpilleur
-
-            //Début de partie : choix du placement des bateaux
-            Random r = new Random();
-            int choix = r.Next(2); //si choix vaut 0, il place de manière horizontale, sinon de manière verticale
-            string reponse = "a";
-            Console.WriteLine("\nVOTRE PLATEAU");
-            InitialiserPlateau(tabj1, PA);
-            InitialiserPlateau(tabj1, Cuir);
-            InitialiserPlateau(tabj1, SM);
-            InitialiserPlateau(tabj1, Crois);
-            InitialiserPlateau(tabj1, CT);
-            DessinerPlateau(tabj1);
-            while ((reponse != "o") && (reponse != "n"))
-            {
-                Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
-                reponse = Console.ReadLine();
-
-                while (reponse == "n")
-                {
-                    tabj1 = new char[10, 10]; //réinitialiser tabj1 
-                    InitialiserPlateau(tabj1, PA);
-                    InitialiserPlateau(tabj1, Cuir);
-                    InitialiserPlateau(tabj1, SM);
-                    InitialiserPlateau(tabj1, Crois);
-                    InitialiserPlateau(tabj1, CT);
-                    DessinerPlateau(tabj1);
-                    Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
-                    reponse = Console.ReadLine();
-                }
-            }
-            Console.WriteLine("\n \n");
-
-
-            //Initialisation du plateau de l'IA
-            Console.WriteLine("PLATEAU DE L'IA");
-            int[] donneesOrdi = new int[20];
-            int[] donnees = new int[20];
-            int compteur = 0;
-            int bateau = 0;
-            for (compteur = 0; compteur < 5; compteur++)
-            {
-                if (bateau == 0)
-                {
-                    InitialiserPlateauOrdi(tabOrdi, PAOrdi, compteur, ref donneesOrdi);
-                }
-                if (bateau == 1)
-                {
-                    InitialiserPlateauOrdi(tabOrdi, CuirOrdi, compteur, ref donneesOrdi);
-                }
-                if (bateau == 2)
-                {
-                    InitialiserPlateauOrdi(tabOrdi, SMOrdi, compteur, ref donneesOrdi);
-                }
-                if (bateau == 3)
-                {
-                    InitialiserPlateauOrdi(tabOrdi, CroisOrdi, compteur, ref donneesOrdi);
-                }
-                if (bateau == 4)
-                {
-                    InitialiserPlateauOrdi(tabOrdi, CTOrdi, compteur, ref donneesOrdi);
-                }
-                bateau++;
-            }
-            
-
-            DessinerPlateau(tabOrdi);
-            Console.WriteLine("\n");
-
-
-            //Déroulement de la partie
             int nbBateauCoulé = 0;
             int nbBateauCouléOrdi = 0;
-
             int victoire = -1;
+            int nbTours = 0;
+            int[] donnees = new int[20];
+            int[] donneesOrdi = new int[20];
+            bool touche = false;
+            //booléen controle bateau coulé
             bool couléPA = false;
             bool couléCuir = false;
             bool couléSM = false;
@@ -590,18 +824,147 @@ namespace ProjetInfo
             bool couléSMOrdi = false;
             bool couléCroisOrdi = false;
             bool couléCTOrdi = false;
+            DebuterPartie(ref modeJeu, ref niveauOrdi, ref chargerpartie, ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi); //faut placer les arguments en références pour qu'ils soient effectivement modifiés
+
+            //Création des bateaux
+
+            char[] PA = { '#', '#', '#', '#', '#' }; //PorteAvion
+            char[] Cuir = { '#', '#', '#', '#' }; //Cuirassé
+            char[] SM = { '#', '#', '#' }; //SousMarin
+            char[] Crois = { '#', '#', '#' }; //Croiseur
+            char[] CT = { '#', '#' };//ContreTorpilleur
+            char[] PAOrdi = { ' ', ' ', ' ', ' ', ' ' }; //PorteAvion
+            char[] CuirOrdi = { ' ', ' ', ' ', ' ' }; //Cuirassé
+            char[] SMOrdi = { ' ', ' ', ' ' }; //SousMarin
+            char[] CroisOrdi = { ' ', ' ', ' ' }; //Croiseur
+            char[] CTOrdi = { ' ', ' ' };//ContreTorpilleur
+            if (chargerpartie == false)//pas de chargement de partie
+            {
+                //Début de partie : choix du placement des bateaux sur le plateaux du joueur
+
+                int choix = r.Next(2); //si choix vaut 0, il place de manière horizontale, sinon de manière verticale
+                string reponse = "a";
+                Console.WriteLine("\nVOTRE PLATEAU");
+                InitialiserPlateau(tabj1, PA, 0, ref donnees);
+                InitialiserPlateau(tabj1, Cuir, 1, ref donnees);
+                InitialiserPlateau(tabj1, SM, 2, ref donnees);
+                InitialiserPlateau(tabj1, Crois, 3, ref donnees);
+                InitialiserPlateau(tabj1, CT, 4, ref donnees);
+                DessinerPlateau(tabj1);
+                while ((reponse != "o") && (reponse != "n"))
+                {
+                    Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
+                    reponse = Console.ReadLine();
+
+                    while (reponse == "n")
+                    {
+                        tabj1 = new char[10, 10]; //réinitialiser tabj1 
+                        InitialiserPlateau(tabj1, PA, 0, ref donnees);
+                        InitialiserPlateau(tabj1, Cuir, 1, ref donnees);
+                        InitialiserPlateau(tabj1, SM, 2, ref donnees);
+                        InitialiserPlateau(tabj1, Crois, 3, ref donnees);
+                        InitialiserPlateau(tabj1, CT, 4, ref donnees);
+                        DessinerPlateau(tabj1);
+                        Console.WriteLine("Le placement des bateaux vous convient-il ? (o/n)");
+                        reponse = Console.ReadLine();
+                    }
+                }
+                Console.WriteLine("\n \n");
 
 
+                //Initialisation du plateau de l'IA
+                Console.WriteLine("PLATEAU DE L'IA");
+
+                InitialiserPlateau(tabOrdi, PAOrdi, 0, ref donneesOrdi);
+
+                InitialiserPlateau(tabOrdi, CuirOrdi, 1, ref donneesOrdi);
+
+                InitialiserPlateau(tabOrdi, SMOrdi, 2, ref donneesOrdi);
+
+                InitialiserPlateau(tabOrdi, CroisOrdi, 3, ref donneesOrdi);
+
+                InitialiserPlateau(tabOrdi, CTOrdi, 4, ref donneesOrdi);
+
+
+
+            }
+            else//chargement d'une ancienne partie
+            {
+                //mise à jour des bateaux de l'ordi et du nombre de bateaux coulé par le joueur
+                DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
+                DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
+                DefinirTableau(SMOrdi, 2, donneesOrdi, tabOrdi);
+                DefinirTableau(CroisOrdi, 3, donneesOrdi, tabOrdi);
+                DefinirTableau(CTOrdi, 4, donneesOrdi, tabOrdi);
+                if (couléPAOrdi == false)
+                {
+                    TesterToucheCoule(PAOrdi, ref nbBateauCouléOrdi, ref couléPAOrdi);
+                }
+                if (couléCuirOrdi == false)
+                {
+                    TesterToucheCoule(CuirOrdi, ref nbBateauCouléOrdi, ref couléCuirOrdi);
+                }
+                if (couléSMOrdi == false)
+                {
+                    TesterToucheCoule(SMOrdi, ref nbBateauCouléOrdi, ref couléSMOrdi);
+                }
+                if (couléCroisOrdi == false)
+                {
+                    TesterToucheCoule(CroisOrdi, ref nbBateauCouléOrdi, ref couléCroisOrdi);
+                }
+                if (couléCTOrdi == false)
+                {
+                    TesterToucheCoule(CTOrdi, ref nbBateauCouléOrdi, ref couléCTOrdi);
+                }
+                //mise à jour des bateaux du joueur et du nombre de bateaux coulé par l'ordi 
+                DefinirTableau(PA, 0, donnees, tabj1);
+                DefinirTableau(Cuir, 1, donnees, tabj1);
+                DefinirTableau(SM, 2, donnees, tabj1);
+                DefinirTableau(Crois, 3, donnees, tabj1);
+                DefinirTableau(CT, 4, donnees, tabj1);
+                if (couléPA == false)
+                {
+                    TesterToucheCoule(PA, ref nbBateauCoulé, ref couléPA);
+                }
+                if (couléCuir == false)
+                {
+                    TesterToucheCoule(Cuir, ref nbBateauCoulé, ref couléCuir);
+                }
+                if (couléSM == false)
+                {
+                    TesterToucheCoule(SM, ref nbBateauCoulé, ref couléSM);
+                }
+                if (couléCrois == false)
+                {
+
+                    TesterToucheCoule(Crois, ref nbBateauCoulé, ref couléCrois);
+                }
+                if (couléCT == false)
+                {
+                    TesterToucheCoule(CT, ref nbBateauCoulé, ref couléCT);
+                }
+                Console.WriteLine("Voici votre plateau :");
+                DessinerPlateau(tabj1);
+                Console.WriteLine("Voici le plateau de l'ordi et les tirs que vous aviez effectué :");
+                DessinerPlateau(tabOrdi);
+            }
+
+            //Déroulement de la partie
+
+            int pas = 0;
+            int orientation = 0;
+            int colonneOrdi = 12;
+            int ligneOrdi = 12;
             while (victoire != 0 || victoire != 1)
             {
-                if (modeJeu == true) // ((couléPA == false) || (couléCuir == false) || (couléSM == false) || (couléCrois == false) || (couléCT == false))
+                if (modeJeu == true) //mode jeu salvo
                 {
                     int nbTirDispoOrdi;
                     int nbTirDispo = 5 - nbBateauCouléOrdi;
                     nbTours++;
                     Console.WriteLine("###### TOUR {0} ######", nbTours);
                     Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? \nVous avez le droit à {0} tir(s).", nbTirDispo);
-                    for (int nbTir = 0; nbTir < nbTirDispo; nbTir++)
+                    for (int nbTir = 0; nbTir < nbTirDispo; nbTir++) //tir joueur
                     {
                         Console.WriteLine("C'est votre tir n°{0}.", (nbTir + 1));
                         string saisieColonne = "K";
@@ -618,7 +981,7 @@ namespace ProjetInfo
                         }
                         else
                         {
-                            Quitter(reponse, ref tabj1);
+                            Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
                             Environment.Exit(0);
                         }
 
@@ -632,15 +995,13 @@ namespace ProjetInfo
                         ligne--;//pour que le numéro de ligne entré corresponde à la bonne ligne du plateau
 
                         Tirer(colonne, ligne, tabOrdi);
-
+                        
                         DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
                         DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
                         DefinirTableau(SMOrdi, 2, donneesOrdi, tabOrdi);
                         DefinirTableau(CroisOrdi, 3, donneesOrdi, tabOrdi);
                         DefinirTableau(CTOrdi, 4, donneesOrdi, tabOrdi);
-
-
-
+                        
                         if (couléPAOrdi == false)
                         {
                             TesterToucheCoule(PAOrdi, ref nbBateauCouléOrdi, ref couléPAOrdi);
@@ -664,17 +1025,16 @@ namespace ProjetInfo
                         Console.WriteLine("Plateau de l'adversaire");
                         DessinerPlateau(tabOrdi);
                         //DessinerPlateau(tabj1);
-                    }//for (nbTir<5)
+                    }
 
                     //tour de l'ordi
                     nbTirDispoOrdi = 5 - nbBateauCoulé;
                     Console.WriteLine("C'est le tour de l'ordi. \nIl a le droit à {0} tir(s).", nbTirDispoOrdi);
-                    int colonneOrdi;
-                    int ligneOrdi;
+
                     for (int nbTir = 0; nbTir < nbTirDispoOrdi; nbTir++)
                     {
                         char saisieColonneOrdi = 'W';
-                        if (niveauOrdi == false)
+                        if (niveauOrdi == false)//niveau ordi facile
                         {
                             do
                             {
@@ -684,13 +1044,61 @@ namespace ProjetInfo
 
                             }
                             while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
-                            
+
                             Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
                             Tirer(colonneOrdi, ligneOrdi, tabj1);
                         }
-                        else
+                        else //nivOrdi == true, cad l'IA est intelligente
                         {
 
+
+                            if (pas == 0)//si l'ordi n'a pas de cible en mémoire
+                            {
+                                do
+                                {
+                                    colonneOrdi = r.Next(0, 10);
+                                    ligneOrdi = r.Next(0, 10);
+                                    saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
+
+                                }
+                                while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
+                                TirerOrdi(colonneOrdi, ligneOrdi, tabj1, ref touche);
+                                Console.WriteLine("L'ordi a tiré en : " + saisieColonneOrdi + (ligneOrdi + 1));
+                                if (touche == true)
+                                {
+                                    pas++;
+                                }
+                            }
+                            else// si l'ordi a une cible en mémoire
+                            {
+
+                                ChercherCible(ref orientation, ref pas, ref colonneOrdi, ref ligneOrdi, tabj1, ref touche);
+                                Console.WriteLine(touche);
+                                Console.WriteLine("orientation=" + orientation);
+                                Console.WriteLine("pas :" + pas);
+                                if (touche == false)
+                                {
+                                    orientation = orientation + 1;
+                                    pas = 1;
+                                }
+                                else
+                                {
+                                    pas++;
+                                }
+                                if (pas == 5)
+                                {
+
+                                    orientation++;
+                                    pas = 1;
+                                }
+                                if (orientation == 4)
+                                {
+                                    pas = 0;
+                                    orientation = 0;
+                                }
+
+                            }
+        
                         }
                         DefinirTableau(PA, 0, donnees, tabj1);
                         DefinirTableau(Cuir, 1, donnees, tabj1);
@@ -700,32 +1108,57 @@ namespace ProjetInfo
                         if (couléPA == false)
                         {
                             TesterToucheCoule(PA, ref nbBateauCoulé, ref couléPA);
+                            if (couléPA == true)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
                         }
                         if (couléCuir == false)
                         {
 
                             TesterToucheCoule(Cuir, ref nbBateauCoulé, ref couléCuir);
+                            if (couléCuir == true)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
 
                         }
                         if (couléSM == false)
                         {
 
                             TesterToucheCoule(SM, ref nbBateauCoulé, ref couléSM);
+                            if (couléSM == true)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
                         }
-                        if (couléCroisOrdi == false)
+                        if (couléCrois == false)
                         {
 
                             TesterToucheCoule(Crois, ref nbBateauCoulé, ref couléCrois);
+                            if (couléCrois == true)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
                         }
                         if (couléCT == false)
                         {
 
                             TesterToucheCoule(CT, ref nbBateauCoulé, ref couléCT);
+                            if (couléCT == true)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
                         }
-
+                        DessinerPlateau(tabj1);
+                        Console.ReadKey();
                     }
-                    DessinerPlateau(tabj1);
-
+                    DessinerPlateau(tabOrdi);
                     Console.WriteLine("Vous avez coulé {0} bateau(x).", nbBateauCouléOrdi);
                     if ((couléPAOrdi == true) && (couléCuirOrdi == true) && (couléSMOrdi == true) && (couléCroisOrdi == true) && (couléCTOrdi == true))
                     {
@@ -737,8 +1170,9 @@ namespace ProjetInfo
                     }
                 }
 
-                else
+                else // mode jeu normal
                 {
+                    // tour joueur
                     nbTours++;
                     Console.WriteLine("###### TOUR {0} ######", nbTours);
                     Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? ");
@@ -756,7 +1190,7 @@ namespace ProjetInfo
                     }
                     else
                     {
-                        Quitter(reponse, ref tabj1);
+                        Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
                         Environment.Exit(0);
                     }
 
@@ -769,7 +1203,7 @@ namespace ProjetInfo
                         ligne = Convert.ToInt16(saisieLigne);
                     }
                     ligne--;//pour que le numéro de ligne entré corresponde à la bonne ligne du plateau
-                    
+
                     Tirer(colonne, ligne, tabOrdi);
                     DefinirTableau(PAOrdi, 0, donneesOrdi, tabOrdi);
                     DefinirTableau(CuirOrdi, 1, donneesOrdi, tabOrdi);
@@ -803,11 +1237,11 @@ namespace ProjetInfo
                     }
 
                     DessinerPlateau(tabOrdi);
+                    //tour ordi
                     Console.WriteLine("C'est le tour de l'ordi. ");
-                    int colonneOrdi;
-                    int ligneOrdi;
+
                     char saisieColonneOrdi = 'W';
-                    if (niveauOrdi == false)
+                    if (niveauOrdi == false)//ordi mode facile
                     {
                         do
                         {
@@ -817,13 +1251,60 @@ namespace ProjetInfo
                         }
                         while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
 
-                        /*else
-                        {
 
-                        }*/
                         Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
                         Tirer(colonneOrdi, ligneOrdi, tabj1);
                     }
+                    else//nivOrdi == true, cad l'IA est intelligente
+                    {
+                        if (pas == 0)//l'IA n'a pas de cible en mémoire
+                        {
+                            do
+                            {
+                                colonneOrdi = r.Next(0, 10);
+                                ligneOrdi = r.Next(0, 10);
+                                saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
+
+                            }
+                            while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
+                            TirerOrdi(colonneOrdi, ligneOrdi, tabj1, ref touche);
+                            Console.WriteLine("L'ordi a tiré en : " + saisieColonneOrdi + (ligneOrdi + 1));
+                            if (touche == true)
+                            {
+                                pas++;
+                            }
+                        }
+                        else//l'IA a une cible en mémoire
+                        {
+
+                            ChercherCible(ref orientation, ref pas, ref colonneOrdi, ref ligneOrdi, tabj1, ref touche);
+                            Console.WriteLine(touche);
+                            Console.WriteLine("orientation=" + orientation);
+                            Console.WriteLine("pas :" + pas);
+                            if (touche == false)
+                            {
+                                orientation = orientation + 1;
+                                pas = 1;
+                            }
+                            else
+                            {
+                                pas++;
+                            }
+                            if (pas == 5)
+                            {
+
+                                orientation++;
+                                pas = 1;
+                            }
+                            if (orientation == 4)
+                            {
+                                pas = 0;
+                                orientation = 0;
+                            }
+
+                        }
+                    }
+
                     DefinirTableau(PA, 0, donnees, tabj1);
                     DefinirTableau(Cuir, 1, donnees, tabj1);
                     DefinirTableau(SM, 2, donnees, tabj1);
@@ -865,19 +1346,14 @@ namespace ProjetInfo
 
                     }
                 }
-                if (victoire == 1)
-                { Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours); }
-                if (victoire == 0)
-                { Console.WriteLine("Désolé vous avez perdu !\n La partie a duré {0} tours.", nbTours); }
-
+                
 
             }
-
-
-            //Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours);
-
-
-
+            if (victoire == 1)
+            { Console.WriteLine("Bravo ! Vous avez gagné !\n Il vous a fallu {0} tours pour gagner.", nbTours); }
+            if (victoire == 0)
+            { Console.WriteLine("Désolé vous avez perdu !\n La partie a duré {0} tours.", nbTours); }
+           
             //Vérifications 
             DessinerPlateau(tabOrdi);
 
@@ -894,221 +1370,6 @@ namespace ProjetInfo
         }
     }
 }
-/*else //nivOrdi == true, cad l'IA est intelligente
-                    {
-                        bool touche = false;
-                        int nbTir = 0;
-                        //do// for (int nbTir = 0; nbTir < nbTirDispoOrdi; nbTir++) tire 5 fois
-                        //{
-                            do
-                            {
-                                char saisieColonneOrdi = 'W';
-                                do
-                                {
-                                    colonneOrdi = r.Next(0, 10);
-                                    ligneOrdi = r.Next(0, 10);
 
-                                    if (colonneOrdi == 0)
-                                    {
-                                        saisieColonneOrdi = 'A';
-                                    }
-                                    if (colonneOrdi == 1)
-                                    {
-                                        saisieColonneOrdi = 'B';
-                                    }
-                                    if (colonneOrdi == 2)
-                                    {
-                                        saisieColonneOrdi = 'C';
-                                    }
-                                    if (colonneOrdi == 3)
-                                    {
-                                        saisieColonneOrdi = 'D';
-                                    }
-                                    if (colonneOrdi == 4)
-                                    {
-                                        saisieColonneOrdi = 'E';
-                                    }
-                                    if (colonneOrdi == 5)
-                                    {
-                                        saisieColonneOrdi = 'F';
-                                    }
-                                    if (colonneOrdi == 6)
-                                    {
-                                        saisieColonneOrdi = 'G';
-                                    }
-                                    if (colonneOrdi == 7)
-                                    {
-                                        saisieColonneOrdi = 'H';
-                                    }
-                                    if (colonneOrdi == 8)
-                                    {
-                                        saisieColonneOrdi = 'I';
-                                    }
-                                    if (colonneOrdi == 9)
-                                    {
-                                        saisieColonneOrdi = 'J';
-                                    }
-                                } while (tabj1[ligneOrdi, colonneOrdi] == 'O' || tabj1[ligneOrdi, colonneOrdi] == 'X');
-                                Console.WriteLine("L'ordi a tiré en " + saisieColonneOrdi + (ligneOrdi + 1));
-                                TirerOrdi(colonneOrdi, ligneOrdi, tabj1, ref touche);
-nbTir++;
-                                Console.WriteLine("nbTir : " + nbTir);
 
-                            } while ((touche == false)&&(nbTir<nbTirDispoOrdi));
-                            if ((touche == true) && (nbTir<nbTirDispoOrdi))//vérifie le premier coup
-                            {
-                                Console.WriteLine("touche vaut true");
-                                touche = false;
-                                if (colonneOrdi != 9)
-                                {
-                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi+1) + (ligneOrdi + 1));
-                                    TirerOrdi(colonneOrdi + 1, ligneOrdi, tabj1, ref touche);
 
-nbTir++;
-                                    Console.WriteLine("nbTir : " + nbTir);
-                                    if ((touche == true) && (nbTir<nbTirDispoOrdi))
-                                    {
-                                        Console.WriteLine("touche vaut true");
-                                        int k = 2;
-                                        do
-                                        {
-                                            touche = false;
-                                            Console.WriteLine("L'ordi a tiré en " + (colonneOrdi + k) + (ligneOrdi + 1));
-                                            TirerOrdi(colonneOrdi + k, ligneOrdi, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            k++;
-                                        } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((colonneOrdi + k) <= 9));
-                                        //continue de tirer dans ce sens tant qu'il touche
-                                    }
-                                    else //c'est que le bateau est placé horizontalement
-                                    {
-                                        if ((ligneOrdi != 9) && (nbTir<nbTirDispoOrdi))
-                                        {
-                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 2));
-                                            TirerOrdi(colonneOrdi, ligneOrdi + 1, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            if (touche == true)
-                                            {
-                                                Console.WriteLine("touche vaut true");
-                                                int k = 2;
-                                                do
-                                                {
-                                                    touche = false;
-                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 1 + k));
-                                                    TirerOrdi(colonneOrdi, ligneOrdi + k, tabj1, ref touche);
-
-nbTir++;
-                                                    Console.WriteLine("nbTir : " + nbTir);
-                                                    k++;
-                                                } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((ligneOrdi + k) <= 9));
-                                                //continue de tirer dans ce sens tant qu'il touche
-                                            }
-                                        }
-                                        else //tire dans l'autre sens 
-                                        {
-                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + ligneOrdi);
-                                            TirerOrdi(colonneOrdi, ligneOrdi - 1, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            if ((touche == true) && (nbTir<nbTirDispoOrdi))
-                                            {
-                                                Console.WriteLine("touche vaut true");
-                                                int k = 2;
-                                                do
-                                                {
-                                                    touche = false;
-                                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi + 1) + (ligneOrdi + 1 -k));
-                                                    TirerOrdi(colonneOrdi, ligneOrdi - k, tabj1, ref touche);
-
-nbTir++;
-                                                    Console.WriteLine("nbTir : " + nbTir);
-                                                    k++;
-                                                } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((ligneOrdi - k) >= 0));
-                                                //continue de tirer dans ce sens tant qu'il touche
-                                            }
-                                        }
-                                    }
-                                }
-                                else //s'il est au bord du plateau, tire dans l'autre sens
-                                {
-                                    Console.WriteLine("L'ordi a tiré en " + (colonneOrdi - 1) + (ligneOrdi + 1));
-                                    TirerOrdi(colonneOrdi - 1, ligneOrdi, tabj1, ref touche);
-
-nbTir++;
-                                    Console.WriteLine("nbTir : " + nbTir);
-                                    if ((touche == true) && (nbTir<nbTirDispoOrdi))
-                                    {
-                                        Console.WriteLine("touche vaut true");
-                                        int k = 2;
-                                        do
-                                        {
-                                            touche = false;
-                                            Console.WriteLine("L'ordi a tiré en " + (colonneOrdi -k) + (ligneOrdi + 1));
-                                            TirerOrdi(colonneOrdi - k, ligneOrdi, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            k++;
-                                        } while ((nbTir<nbTirDispoOrdi) && (touche == true) && ((colonneOrdi - k) >= 0));
-                                        //continue de tirer dans ce sens tant qu'il touche
-                                    }
-                                    else //c'est que le bateau est placé horizontalement
-                                    {
-                                        if ((ligneOrdi != 9) && (nbTir<nbTirDispoOrdi))
-                                        {
-                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 2));
-                                            TirerOrdi(colonneOrdi, ligneOrdi + 1, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            if (touche == true)
-                                            {
-                                                Console.WriteLine("touche vaut true");
-                                                int k = 2;
-                                                do
-                                                {
-                                                    touche = false;
-                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi+ (ligneOrdi + 1 + k));
-                                                    TirerOrdi(colonneOrdi, ligneOrdi + k, tabj1, ref touche);
-
-nbTir++;
-                                                    Console.WriteLine("nbTir : " + nbTir);
-                                                    k++;
-                                                } while ((nbTir<nbTirDispoOrdi)&& (touche == true) && ((ligneOrdi + k) <= 9));
-                                                //continue de tirer dans ce sens tant qu'il touche
-                                            }
-                                        }
-                                        else //tire dans l'autre sens 
-                                        {
-                                            Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi));
-                                            TirerOrdi(colonneOrdi, ligneOrdi - 1, tabj1, ref touche);
-
-nbTir++;
-                                            Console.WriteLine("nbTir : " + nbTir);
-                                            if ((touche == true) && (nbTir<nbTirDispoOrdi))
-                                            {
-                                                Console.WriteLine("touche vaut true");
-                                                int k = 2;
-                                                do
-                                                {
-                                                    touche = false;
-                                                    Console.WriteLine("L'ordi a tiré en " + colonneOrdi + (ligneOrdi + 1 -k));
-                                                    TirerOrdi(colonneOrdi, ligneOrdi - k, tabj1, ref touche);
-nbTir++;
-                                                    Console.WriteLine("nbTir : " + nbTir);
-                                                    k++;
-                                                } while ((nbTir<nbTirDispoOrdi)&& (touche == true) && ((ligneOrdi - k) >= 0));
-                                                //continue de tirer dans ce sens tant qu'il touche
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                      //  } while (nbTir <= nbTirDispoOrdi);
-                        
-                    }*/
