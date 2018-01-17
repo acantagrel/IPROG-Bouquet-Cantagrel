@@ -673,11 +673,14 @@ namespace ProjetInfo
 
             Console.WriteLine("Sous quel nom voulez-vous enregistrer votre partie ?");
             string nom = Console.ReadLine();
-            string path = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
-            /*Console.WriteLine("Veuillez entrer le chemin du dossier qui contient la partie à charger.");
-            Console.WriteLine("Attention ! Ce chemin doit commencer par votre espace de stockage et aller \njusqu'au dossier contenant le fichier à ouvrir.\nChaque transition entre dossiers doit être notée par \\\\");
-            path = Console.ReadLine();
-            redemander confirmation chemin + rejouer*/
+            string path;// = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+            do
+            {
+                Console.WriteLine("Veuillez entrer le chemin du dossier qui contient la partie à charger.");
+                Console.WriteLine("Attention ! Ce chemin doit commencer par votre espace de stockage et aller \njusqu'au dossier contenant le fichier à ouvrir.\nChaque transition entre dossiers doit être notée par \\\\");
+                path = Console.ReadLine();
+            } while (System.IO.Directory.Exists(path) == false);
+            //redemander confirmation chemin + rejouer
             string format = ".txt";
             string pathComplet = path + nom + format;
             System.IO.File.WriteAllText(@pathComplet, "");// crée le fichier et enregistre le deuxième argument dedans
@@ -830,13 +833,11 @@ namespace ProjetInfo
                         }
                     }
                 }
-                
-                    
-                
+
+
+
             }
         }
-
-
 
         static int TraduireCharEnInt(char saisieColonne)
         {
@@ -1174,7 +1175,14 @@ namespace ProjetInfo
                                 {
                                     ligne = saisieUtilisateur[1] - 49;
                                 }
-                                if ((colonne < 0) || (colonne > 9) || (ligne < 0) || (ligne > 9))
+                                if (saisieColonne=='Q')
+                     
+                                    {
+                                        Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
+                                        Environment.Exit(0);
+                                    }
+                                
+                                else if (((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J')) || (saisieUtilisateur.Length >=3 && (saisieUtilisateur[2] > 48)))
                                 {
                                     Console.WriteLine("Veuillez tirer sur le plateau");
                                 }
@@ -1183,7 +1191,7 @@ namespace ProjetInfo
                                     Console.WriteLine("Vous aviez dejà tiré à cette endroit! Réessayez");
                                 }
                             }
-                            while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)) || ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')));
+                            while (((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J')) || ((saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)) || ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X'))));
                         }
                         else//niveau avancé : on peut tirer 2 fois sur la même case
                         {
@@ -1201,13 +1209,20 @@ namespace ProjetInfo
                                 {
                                     ligne = saisieUtilisateur[1] - 49;
                                 }
-                                if ((colonne < 0) || (colonne > 9) || (ligne < 0) || (ligne > 9))
+                                if (saisieColonne == 'Q')
+
+                                {
+                                    Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
+                                    Environment.Exit(0);
+                                }
+
+                                else if ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || ((saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48))))
                                 {
                                     Console.WriteLine("Veuillez tirer sur le plateau");
                                 }
 
                             }
-                            while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)));
+                            while ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || ((saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48))));
                         }
                         Tirer(colonne, ligne, tabOrdi);
 
@@ -1401,7 +1416,14 @@ namespace ProjetInfo
                             {
                                 ligne = saisieUtilisateur[1] - 49;
                             }
-                            if ((colonne < 0) || (colonne > 9) || (ligne < 0) || (ligne > 9))
+                            if (saisieColonne == 'Q')
+
+                            {
+                                Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
+                                Environment.Exit(0);
+                            }
+
+                            else if((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)))
                             {
                                 Console.WriteLine("Veuillez tirer sur le plateau");
                             }
@@ -1410,7 +1432,7 @@ namespace ProjetInfo
                                 Console.WriteLine("Vous aviez dejà tiré à cette endroit! Réessayez");
                             }
                         }
-                        while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)) || ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')));
+                        while ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)) || ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')));
                     }
                     else//niveau avancé : on peut tirer 2 fois sur la même case
                     {
@@ -1428,12 +1450,19 @@ namespace ProjetInfo
                             {
                                 ligne = saisieUtilisateur[1] - 49;
                             }
-                            if ((colonne < 0) || (colonne > 9) || (ligne < 0) || (ligne > 9))
+                            if (saisieColonne == 'Q')
+
+                            {
+                                Quitter(ref tabj1, ref tabOrdi, ref donnees, ref donneesOrdi, ref modeJeu, ref niveauOrdi);
+                                Environment.Exit(0);
+                            }
+
+                            else if((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)))
                             {
                                 Console.WriteLine("Veuillez tirer sur le plateau");
                             }
                         }
-                        while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)));
+                        while ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)));
                     }
 
                     Tirer(colonne, ligne, tabOrdi);
