@@ -37,12 +37,12 @@ namespace ProjetInfo
             * Préconditions : aucune
             * Postconditions : modifie les valeurs de bool1 et bool2
             */
-            Console.WriteLine("######################## BATAILLE NAVALE ########################");
+            Console.WriteLine("############################### BATAILLE NAVALE ###############################");
             Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
             string reponse = "a";
             while ((reponse != "o") && (reponse != "n"))
             {
-                Console.WriteLine("Voulez -vous lire les règles ? (o/n)");
+                Console.WriteLine("Voulez-vous lire les règles ? (o/n)");
                 reponse = Console.ReadLine();
             }
             if (reponse == "o")
@@ -206,7 +206,7 @@ namespace ProjetInfo
 
             int choix;
             bool test;
-            int indiceLigne=-1; //à récupérer, premier case du bateau
+            int indiceLigne = -1; //à récupérer, premier case du bateau
             int indiceColonne;//à récupérer, premier case du bateau
             string saisieUtilisateur;
             int i;
@@ -237,15 +237,15 @@ namespace ProjetInfo
                         {
                             indiceLigne = saisieUtilisateur[1] - 49;
                         }
-                        if ((indiceColonne > 9 - tabBateau.Length ) || ((indiceLigne < 0) || (indiceLigne > 9)))
+                        if ((indiceColonne > 9 - tabBateau.Length) || ((indiceLigne < 0) || (indiceLigne > 9)))
                         {
                             Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer");
                         }
                     }
                     while ((indiceColonne > 9 - tabBateau.Length) || ((saisieUtilisateur != "A") && (saisieUtilisateur != "B") && (saisieUtilisateur != "C") && (saisieUtilisateur != "D") && (saisieUtilisateur != "E") && (saisieUtilisateur != "F") && (saisieUtilisateur != "G") && (saisieUtilisateur != "H") && (saisieUtilisateur != "I")) && ((indiceLigne < 0) || (indiceLigne > 9)));
-                    
-                     i = indiceLigne;
-                     j= indiceColonne;
+
+                    i = indiceLigne;
+                    j = indiceColonne;
                     //teste si le tableau est vide là où on veut écrire
                     int k; //compteur de la taille du tableau du bateau
                     for (k = 0; k < tabBateau.Length; k++)
@@ -267,7 +267,8 @@ namespace ProjetInfo
                 }
                 else// place verticalement
                 {
-                    do {
+                    do
+                    {
                         Console.WriteLine("Sur quelle case voulez-vous placer le début de votre bateau ? ");
                         saisieUtilisateur = Console.ReadLine();
                         indiceColonne = TraduireCharEnInt(saisieUtilisateur[0]);
@@ -283,8 +284,8 @@ namespace ProjetInfo
                         {
                             Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer");
                         }
-                    } while ((saisieUtilisateur != "A") && (saisieUtilisateur != "B") && (saisieUtilisateur != "C") && (saisieUtilisateur != "D") && (saisieUtilisateur != "E") && (saisieUtilisateur != "F") && (saisieUtilisateur != "G") && (saisieUtilisateur != "H") && (saisieUtilisateur != "I") && (saisieUtilisateur != "J")&&(indiceLigne < 0) || (indiceLigne > 9 - tabBateau.Length));
- 
+                    } while ((saisieUtilisateur != "A") && (saisieUtilisateur != "B") && (saisieUtilisateur != "C") && (saisieUtilisateur != "D") && (saisieUtilisateur != "E") && (saisieUtilisateur != "F") && (saisieUtilisateur != "G") && (saisieUtilisateur != "H") && (saisieUtilisateur != "I") && (saisieUtilisateur != "J") && (indiceLigne < 0) || (indiceLigne > 9 - tabBateau.Length));
+
                     i = indiceLigne;
                     j = indiceColonne;
                     //teste si le tableau est vide là où on veut écrire
@@ -605,7 +606,7 @@ namespace ProjetInfo
              * Préconditions : aucune
              * Postconditions : aucune
              */
-            
+
             Console.WriteLine("Merci d'avoir joué ! Nous espérons vous revoir bientôt !");
             Console.WriteLine("Ce programme a été développé par Antoine BOUQUET et Alice CANTAGREL dans le cadre du projet informatique IPROG de première année à l'ENSC.");
         }
@@ -673,6 +674,10 @@ namespace ProjetInfo
             Console.WriteLine("Sous quel nom voulez-vous enregistrer votre partie ?");
             string nom = Console.ReadLine();
             string path = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+            /*Console.WriteLine("Veuillez entrer le chemin du dossier qui contient la partie à charger.");
+            Console.WriteLine("Attention ! Ce chemin doit commencer par votre espace de stockage et aller \njusqu'au dossier contenant le fichier à ouvrir.\nChaque transition entre dossiers doit être notée par \\\\");
+            path = Console.ReadLine();
+            redemander confirmation chemin + rejouer*/
             string format = ".txt";
             string pathComplet = path + nom + format;
             System.IO.File.WriteAllText(@pathComplet, "");// crée le fichier et enregistre le deuxième argument dedans
@@ -714,6 +719,8 @@ namespace ProjetInfo
              *     - bool2 : booléen, réponse du joueur pour le mode de jeu
              *     - bool3 : booléen, réponse du joueur pour le niveau de l'ordi 
              * Variables :
+             *     - reponse : string, reponse à une question
+             *     - reponse2 : string, reponse à une question
              *     - nom : string, nom du fichier
              *     - path : string, chemin du fichier
              *     - format : string, extension du fichier
@@ -723,10 +730,10 @@ namespace ProjetInfo
              * Préconditions : le fichier à ouvrir doit exister et être non vide
              * Postconditions :aucune
              */
-
             string reponse = "a";
+            string reponse2 = "a";
             string nom;
-            string path = "C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+            string path = "\\Projet Info-Bataille Navale\\";
             string format = ".txt";
 
             while ((reponse != "o") && (reponse != "n"))
@@ -737,15 +744,35 @@ namespace ProjetInfo
             if (reponse == "o")
             {
                 bool1 = true;
+                //"E:\\Documents\\ENSC\\INFO\\Projet Info-Bataille Navale\\";//"C:\\Users\\Antoine\\Documents\\ENSC\\1A\\Info\\Bouquet_Cantagrel\\";
+                Console.WriteLine("Veuillez entrer le chemin du dossier qui contient la partie à charger.");
+                Console.WriteLine("Attention ! Ce chemin doit commencer par votre espace de stockage et aller \njusqu'au dossier contenant le fichier à ouvrir.\nChaque transition entre dossiers doit être notée par \\\\");
+                path = Console.ReadLine();
                 Console.WriteLine("Veuillez entrer le nom de la partie à charger.");
                 nom = Console.ReadLine();
                 string pathComplet = path + nom + format;
+                while (System.IO.File.Exists(pathComplet) == false)
+                {
+                    Console.WriteLine("Erreur ! Le fichier que vous essayez d'ouvrir n'existe pas.\nVeuillez rentrer à nouveau un nom de fichier.");
+                    nom = Console.ReadLine();
+                    do
+                    {
+                        Console.WriteLine("Voulez-vous entrer un nouveau chemin d'accès ? (o/n)");
+                        reponse2 = Console.ReadLine();
+                    } while ((reponse2 != "o") && (reponse2 != "n"));
+                    if (reponse2 == "o")
+                    {
+                        Console.WriteLine("Veuillez rentrer à nouveau le chemin d'accès au dossier contenant la partie à charger");
+                        path = Console.ReadLine();
+                        pathComplet = path + nom + format;
+                    }
+                }
                 if (System.IO.File.Exists(pathComplet))//vérifie l'existence du fichier
                 {
                     //lecture 
                     Console.WriteLine("le fichier existe");
                     string[] lines = System.IO.File.ReadAllLines(pathComplet);
-                    System.Console.WriteLine("Contents of WriteLines2.txt = ");
+                    System.Console.WriteLine("Contenu du fichier = ");
                     char[] tableau = new char[100];
                     char[] tableau2 = new char[100];
 
@@ -755,18 +782,24 @@ namespace ProjetInfo
                         if (k < 100)
                         {
                             tableau[k] = line[0];
+
                         }
+
                         if (k >= 100 && k < 200)
                         {
                             tableau2[k - 100] = line[0];
+
                         }
+
                         if (k > 199 && k < 220)
                         {
                             donnees1[k - 200] = Convert.ToInt32(line[0]) - 48;
+
                         }
                         if (k > 219 && k < 240)
                         {
                             donnees2[k - 220] = Convert.ToInt32(line[0]) - 48;
+
                         }
                         k++;
                         bool2 = Convert.ToBoolean(lines[240]);
@@ -781,6 +814,7 @@ namespace ProjetInfo
                             {
                                 tab[i, j] = tableau[k];
                                 k++;
+
                             }
                         }
                     }
@@ -795,11 +829,14 @@ namespace ProjetInfo
                             }
                         }
                     }
-
-
                 }
+                
+                    
+                
             }
         }
+
+
 
         static int TraduireCharEnInt(char saisieColonne)
         {
@@ -1106,15 +1143,15 @@ namespace ProjetInfo
             int ligneOrdi = 12;
             string saisieUtilisateur;
             char saisieColonne;
-            int colonne=-1;
-            int ligne=-1;
+            int colonne = -1;
+            int ligne = -1;
             while (victoire != 0 || victoire != 1)
             {
                 if (modeJeu == true) //mode jeu salvo
                 {
                     int nbTirDispoOrdi;
                     int nbTirDispo = 5 - nbBateauCouléOrdi;
-                    
+
                     nbTours++;
                     Console.WriteLine("###### TOUR {0} ######", nbTours);
                     Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? \nVous avez le droit à {0} tir(s).", nbTirDispo);
@@ -1146,7 +1183,7 @@ namespace ProjetInfo
                                     Console.WriteLine("Vous aviez dejà tiré à cette endroit! Réessayez");
                                 }
                             }
-                            while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9))|| ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')));
+                            while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)) || ((tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')));
                         }
                         else//niveau avancé : on peut tirer 2 fois sur la même case
                         {
@@ -1168,7 +1205,7 @@ namespace ProjetInfo
                                 {
                                     Console.WriteLine("Veuillez tirer sur le plateau");
                                 }
-                                
+
                             }
                             while ((colonne < 0) || (colonne > 9) || ((ligne < 0) || (ligne > 9)));
                         }
@@ -1451,7 +1488,7 @@ namespace ProjetInfo
                         if (pas == 0)//l'IA n'a pas de cible en mémoire
                         {
                             do
-                            { 
+                            {
                                 colonneOrdi = r.Next(0, 10);
                                 ligneOrdi = r.Next(0, 10);
                                 saisieColonneOrdi = TraduireIntEnChar(colonneOrdi);
@@ -1546,3 +1583,4 @@ namespace ProjetInfo
         }
     }
 }
+
