@@ -239,7 +239,7 @@ namespace ProjetInfo
                         }
                         if ((indiceColonne > 9 - tabBateau.Length) || ((indiceLigne < 0) || (indiceLigne > 9)))
                         {
-                            Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer");
+                            Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer.");
                         }
                     }
                     while ((indiceColonne > 9 - tabBateau.Length) || ((saisieUtilisateur != "A") && (saisieUtilisateur != "B") && (saisieUtilisateur != "C") && (saisieUtilisateur != "D") && (saisieUtilisateur != "E") && (saisieUtilisateur != "F") && (saisieUtilisateur != "G") && (saisieUtilisateur != "H") && (saisieUtilisateur != "I")) && ((indiceLigne < 0) || (indiceLigne > 9)));
@@ -282,7 +282,7 @@ namespace ProjetInfo
                         }
                         if (indiceLigne > 9 - tabBateau.Length)
                         {
-                            Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer");
+                            Console.WriteLine("Attention votre bateau ne sera pas sur le plateau, veuillez recommencer.");
                         }
                     } while ((saisieUtilisateur != "A") && (saisieUtilisateur != "B") && (saisieUtilisateur != "C") && (saisieUtilisateur != "D") && (saisieUtilisateur != "E") && (saisieUtilisateur != "F") && (saisieUtilisateur != "G") && (saisieUtilisateur != "H") && (saisieUtilisateur != "I") && (saisieUtilisateur != "J") && (indiceLigne < 0) || (indiceLigne > 9 - tabBateau.Length));
 
@@ -295,7 +295,7 @@ namespace ProjetInfo
                         if (tab[i + k, j] != 0)
                         {
                             test = false;
-                            Console.WriteLine("Attention! Vous faites se chevaucher 2 bateaux recommencer le placement");
+                            Console.WriteLine("Attention! Vous faites se chevaucher 2 bateaux ! Recommencez le placement.");
                         }
                     }
 
@@ -378,7 +378,7 @@ namespace ProjetInfo
                 Console.WriteLine("Touché !");
             }
             else if ((tableau[ligne, colonne] == 'O') || (tableau[ligne, colonne] == 'X'))
-            { Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit."); } // ATTENTION ! DEPEND DU MODE DE JEU
+            { Console.WriteLine("Attention ! Vous aviez déjà tiré à cet endroit."); } 
 
         }
 
@@ -676,11 +676,11 @@ namespace ProjetInfo
             string path;
             do
             {
-                Console.WriteLine("Veuillez entrer le chemin du dossier qui contient la partie à charger.");
+                Console.WriteLine("Veuillez entrer le chemin du dossier où vous voulez enregistrer votre partie.");
                 Console.WriteLine("Attention ! Ce chemin doit commencer par votre espace de stockage et aller \njusqu'au dossier contenant le fichier à ouvrir.\nChaque transition entre dossiers doit être notée par \\\\");
                 path = Console.ReadLine();
             } while (System.IO.Directory.Exists(path) == false);
-          
+
             string format = ".txt";
             string pathComplet = path + nom + format;
             System.IO.File.WriteAllText(@pathComplet, "");// crée le fichier et enregistre le deuxième argument dedans
@@ -772,10 +772,8 @@ namespace ProjetInfo
                 }
                 if (System.IO.File.Exists(pathComplet))//vérifie l'existence du fichier
                 {
-                    //lecture 
-                    Console.WriteLine("le fichier existe");
+                    //lecture
                     string[] lines = System.IO.File.ReadAllLines(pathComplet);
-                    System.Console.WriteLine("Contenu du fichier = ");
                     char[] tableau = new char[100];
                     char[] tableau2 = new char[100];
 
@@ -1157,11 +1155,11 @@ namespace ProjetInfo
 
                         nbTours++;
                         Console.WriteLine("###### TOUR {0} ######", nbTours);
-                        Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? \nVous avez le droit à {0} tir(s).", nbTirDispo);
+                        Console.WriteLine("C'est votre tour. \nVous avez le droit à {0} tir(s).", nbTirDispo);
                         for (int nbTir = 0; nbTir < nbTirDispo; nbTir++) //tir joueur
                         {
                             Console.WriteLine("C'est votre tir n°{0}.", (nbTir + 1));
-                            if (niveauOrdi == false)//niveau facle : on ne peut pas tiré deux fois sur la meme case 
+                            if (niveauOrdi == false)//niveau facile : on ne peut pas tirer deux fois sur la meme case 
                             {
                                 do
                                 {
@@ -1220,7 +1218,7 @@ namespace ProjetInfo
 
                                     else if ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || ((saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48))))
                                     {
-                                        Console.WriteLine("Veuillez tirer sur le plateau");
+                                        Console.WriteLine("Veuillez tirer sur le plateau ou vérifiez que votre saisie est correcte (casse, nombre).");
                                     }
 
                                 }
@@ -1256,7 +1254,8 @@ namespace ProjetInfo
                             }
                             Console.WriteLine("Plateau de l'adversaire");
                             DessinerPlateau(tabOrdi);
-                            //DessinerPlateau(tabj1);
+                            Console.WriteLine("\nAppuyez sur une touche pour continuer.");
+                            Console.ReadKey();
                         }
 
                         //tour de l'IA
@@ -1302,9 +1301,10 @@ namespace ProjetInfo
                                 {
 
                                     ChercherCible(ref orientation, ref pas, ref colonneOrdi, ref ligneOrdi, tabj1, ref touche);
+                                    /*Verifications :
                                     Console.WriteLine(touche);
                                     Console.WriteLine("orientation=" + orientation);
-                                    Console.WriteLine("pas :" + pas);
+                                    Console.WriteLine("pas :" + pas);*/
                                     if (touche == false)
                                     {
                                         orientation = orientation + 1;
@@ -1400,9 +1400,9 @@ namespace ProjetInfo
                         // tour joueur
                         nbTours++;
                         Console.WriteLine("###### TOUR {0} ######", nbTours);
-                        Console.WriteLine("C'est votre tour. Sur quelle case voulez-vous tirer ? ");
-
-                        if (niveauOrdi == false)//niveau facle : on ne peut pas tiré deux fois sur la meme case 
+                        Console.WriteLine("C'est votre tour. \nVous avez le droit à 1 tir.");
+                        
+                        if (niveauOrdi == false)//niveau facile : on ne peut pas tirer deux fois sur la meme case 
                         {
                             do
                             {
@@ -1427,7 +1427,7 @@ namespace ProjetInfo
 
                                 else if ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)))
                                 {
-                                    Console.WriteLine("Veuillez tirer sur le plateau");
+                                    Console.WriteLine("Veuillez tirer sur le plateau ou vérifiez que votre saisie est correcte (casse, nombre).");
                                 }
                                 else if (tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')
                                 {
@@ -1461,7 +1461,7 @@ namespace ProjetInfo
 
                                 else if ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)))
                                 {
-                                    Console.WriteLine("Veuillez tirer sur le plateau");
+                                    Console.WriteLine("Veuillez tirer sur le plateau  ou vérifiez que votre saisie est correcte (casse, nombre).");
                                 }
                             }
                             while ((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J') || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)));
@@ -1494,8 +1494,10 @@ namespace ProjetInfo
                         {
                             TesterToucheCoule(CTOrdi, ref nbBateauCouléOrdi, ref couléCTOrdi);
                         }
-
+                        Console.WriteLine("Plateau de l'adversaire");
                         DessinerPlateau(tabOrdi);
+                        Console.WriteLine(" \nAppuyez sur une touche pour continuer.");
+                        Console.ReadKey();
                         //tour ordi
                         Console.WriteLine("C'est le tour de l'ordi. ");
 
@@ -1536,9 +1538,10 @@ namespace ProjetInfo
                             {
 
                                 ChercherCible(ref orientation, ref pas, ref colonneOrdi, ref ligneOrdi, tabj1, ref touche);
+                                /*Verifications 
                                 Console.WriteLine(touche);
                                 Console.WriteLine("orientation=" + orientation);
-                                Console.WriteLine("pas :" + pas);
+                                Console.WriteLine("pas :" + pas);*/
                                 if (touche == false)
                                 {
                                     orientation = orientation + 1;
