@@ -37,7 +37,19 @@ namespace ProjetInfo
             * Préconditions : aucune
             * Postconditions : modifie les valeurs de bool1 et bool2
             */
-            Console.WriteLine("############################### BATAILLE NAVALE ###############################");
+            Console.WriteLine(" _____       ___   _____       ___   _   _       _       _____  ");
+            Console.WriteLine("|  _  \\     /   | |_   _|     /   | | | | |     | |     | ____| ");
+            Console.WriteLine("| |_| |    / /| |   | |      / /| | | | | |     | |     | |__   ");
+            Console.WriteLine("|  _  {   / / | |   | |     / / | | | | | |     | |     |  __|  ");
+            Console.WriteLine("| |_| |  / /  | |   | |    / /  | | | | | |___  | |___  | |___");
+            Console.WriteLine("|_____/ /_/   |_|   |_|   /_/   |_| |_| |_____| |_____| |_____| ");
+            Console.WriteLine("\n\n __   _       ___   _     _       ___   _       _____ ");
+            Console.WriteLine("|  \\ | |     /   | | |   / /     /   | | |     | ____|");
+            Console.WriteLine("|   \\| |    / /| | | |  / /     / /| | | |     | |__   ");
+            Console.WriteLine("| |\\   |   / / | | | | / /     / / | | | |     |  __| ");
+            Console.WriteLine("| | \\  |  / /  | | | |/ /     / /  | | | |___  | |___  ");
+            Console.WriteLine("|_|  \\_| /_/   |_| |___/     /_/   |_| |_____| |_____| ");
+            Console.WriteLine("\n\n############################### BATAILLE NAVALE ###############################");
             Console.WriteLine("\nBienvenue ! Ce jeu vous permet de jouer à la bataille navale contre votre ordinateur.");
             string reponse = "a";
             while ((reponse != "o") && (reponse != "n"))
@@ -1165,6 +1177,15 @@ namespace ProjetInfo
                                 {
                                     Console.WriteLine("Sur quelle case voulez-vous tirer ? ");
                                     saisieUtilisateur = Console.ReadLine();
+                                    if (saisieUtilisateur == "ENSC")
+                                    {
+                                        Console.WriteLine(" _____   __   __  _____   ______  ");
+                                        Console.WriteLine("| ____| |  \\ | | / ___/  / ____|");
+                                        Console.WriteLine("| |__   |   \\| | | |___  | |");
+                                        Console.WriteLine("|  __|  | |\\   | \\____ \\ | |");
+                                        Console.WriteLine("| |___  | | \\  |  ___| | | |___");
+                                        Console.WriteLine("|_____| |_|  \\_| /_____/ \\_____|");
+                                    }
                                     saisieColonne = saisieUtilisateur[0];
                                     colonne = TraduireCharEnInt(saisieColonne);
                                     if (saisieUtilisateur.Length == 3 && saisieUtilisateur[1] == '1' && saisieUtilisateur[2] == '0')
@@ -1184,7 +1205,7 @@ namespace ProjetInfo
 
                                     else if (((saisieColonne != 'A') && (saisieColonne != 'B') && (saisieColonne != 'C') && (saisieColonne != 'D') && (saisieColonne != 'E') && (saisieColonne != 'F') && (saisieColonne != 'G') && (saisieColonne != 'H') && (saisieColonne != 'I') && (saisieColonne != 'J')) || (saisieUtilisateur.Length >= 3 && (saisieUtilisateur[2] > 48)))
                                     {
-                                        Console.WriteLine("Veuillez tirer sur le plateau");
+                                        Console.WriteLine("Veuillez tirer sur le plateau ou vérifiez que votre saisie est correcte (casse, nombre).");
                                     }
                                     else if (tabOrdi[ligne, colonne] == 'O' || tabOrdi[ligne, colonne] == 'X')
                                     {
@@ -1199,6 +1220,15 @@ namespace ProjetInfo
                                 {
                                     Console.WriteLine("Sur quelle case voulez-vous tirer ? ");
                                     saisieUtilisateur = Console.ReadLine();
+                                    if (saisieUtilisateur == "ENSC")
+                                    {
+                                        Console.WriteLine(" _____   __   __  _____   ______  ");
+                                        Console.WriteLine("| ____| |  \\ | | / ___/  / ____|");
+                                        Console.WriteLine("| |__   |   \\| | | |___  | |");
+                                        Console.WriteLine("|  __|  | |\\   | \\____ \\ | |");
+                                        Console.WriteLine("| |___  | | \\  |  ___| | | |___");
+                                        Console.WriteLine("|_____| |_|  \\_| /_____/ \\_____|");
+                                    }
                                     saisieColonne = saisieUtilisateur[0];
                                     colonne = TraduireCharEnInt(saisieColonne);
                                     if (saisieUtilisateur.Length == 3 && saisieUtilisateur[1] == '1' && saisieUtilisateur[2] == '0')
@@ -1408,6 +1438,15 @@ namespace ProjetInfo
                             {
                                 Console.WriteLine("Sur quelle case voulez-vous tirer ? ");
                                 saisieUtilisateur = Console.ReadLine();
+                                if (saisieUtilisateur == "ENSC")
+                                {
+                                    Console.WriteLine(" _____   __   __  _____   ______  ");
+                                    Console.WriteLine("| ____| |  \\ | | / ___/  / ____|");
+                                    Console.WriteLine("| |__   |   \\| | | |___  | |");
+                                    Console.WriteLine("|  __|  | |\\   | \\____ \\ | |");
+                                    Console.WriteLine("| |___  | | \\  |  ___| | | |___");
+                                    Console.WriteLine("|_____| |_|  \\_| /_____/ \\_____|");
+                                }
                                 saisieColonne = saisieUtilisateur[0];
                                 colonne = TraduireCharEnInt(saisieColonne);
                                 if (saisieUtilisateur.Length == 3 && saisieUtilisateur[1] == '1' && saisieUtilisateur[2] == '0')
@@ -1442,6 +1481,15 @@ namespace ProjetInfo
                             {
                                 Console.WriteLine("Sur quelle case voulez-vous tirer ? ");
                                 saisieUtilisateur = Console.ReadLine();
+                                if (saisieUtilisateur == "ENSC")
+                                {
+                                    Console.WriteLine(" _____   __   __  _____   ______  ");
+                                    Console.WriteLine("| ____| |  \\ | | / ___/  / ____|");
+                                    Console.WriteLine("| |__   |   \\| | | |___  | |");
+                                    Console.WriteLine("|  __|  | |\\   | \\____ \\ | |");
+                                    Console.WriteLine("| |___  | | \\  |  ___| | | |___");
+                                    Console.WriteLine("|_____| |_|  \\_| /_____/ \\_____|");
+                                }
                                 saisieColonne = saisieUtilisateur[0];
                                 colonne = TraduireCharEnInt(saisieColonne);
                                 if (saisieUtilisateur.Length == 3 && saisieUtilisateur[1] == '1' && saisieUtilisateur[2] == '0')
