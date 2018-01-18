@@ -20,14 +20,14 @@ namespace ProjetInfo
         {
             /*procédure qui présente le jeu.
             * Arguments : 
-            *     - bool1 : booléen, réponse du joueur pour le mode de jeu à conserver
-            *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi à conserver
-            *     - bool3 : booléen, réponse du joueur pour le chargement de la partie à conserver
-            *     - bool4 : Booléen, réponse joueur pour le placement des bateaux manuellement
-            *     - tab : tableau de charactères à deux dimensions, plateau de jeu à conserver
-            *     - tab1 : tableau de charactères à deux dimensions, plateau de jeu à conserver
-            *     - donnees1 : tableau d'entier, données de jeu à conserver
-            *     - donnees2 : tableau d'entier, données de jeu à conserver
+            *     - bool1 : booléen, réponse du joueur pour le mode de jeu à conserver (INOUT)
+            *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi à conserver (INOUT)
+            *     - bool3 : booléen, réponse du joueur pour le chargement de la partie à conserver (INOUT)
+            *     - bool4 : Booléen, réponse joueur pour le placement des bateaux manuellement à conserver (INOUT)
+            *     - tab : tableau de charactères à deux dimensions, plateau de jeu à conserver (INOUT)
+            *     - tab1 : tableau de charactères à deux dimensions, plateau de jeu à conserver (INOUT)
+            *     - donnees1 : tableau d'entier, données de jeu à conserver (INOUT)
+            *     - donnees2 : tableau d'entier, données de jeu à conserver (INOUT)
             * Variables : 
             *     - reponse : string, contient la réponse du joueur entrée sur la console
             *     - reponse2 : string, contient la réponse du joueur entrée sur la console
@@ -109,10 +109,10 @@ namespace ProjetInfo
         {
             /*procédure qui place aléatoirement les bateaux  sur le plateau de jeu correspondant
              * Arguments : 
-             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher
-             *     - tabBateau : tableau de char à une dimension, représente un bateau. Concrètement, le symbole contenu dans chacune des cases de ce tableau indique l'état du bateau (touché ou non)
-             *     - nb : entier, permet d'écrire dans data à partir d'un certain rang
-             *     - data : tableau d'entiers à une dimension, contient les éléments importants permettant de situer chaque bateau sur le plateau de jeu de l'IA. La procédure permet de modifier ce tableau.
+             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher (IN)
+             *     - tabBateau : tableau de char à une dimension, représente un bateau. Concrètement, le symbole contenu dans chacune des cases de ce tableau indique l'état du bateau (touché ou non). (IN)
+             *     - nb : entier, permet d'écrire dans data à partir d'un certain rang (IN)
+             *     - data : tableau d'entiers à une dimension, contient les éléments importants permettant de situer chaque bateau sur le plateau de jeu de l'IA. La procédure permet de modifier ce tableau. (INOUT)
              * Variables : 
              *     - r : random
              *     - choix : entier, détermine le placement vertical ou horizontal
@@ -199,10 +199,10 @@ namespace ProjetInfo
         {
             /*procédure qui permet au joueur de placer ses bateaux  sur le plateau de jeu correspondant
              * Arguments : 
-             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher
-             *     - tabBateau : tableau de char à une dimension, représente un bateau. Concrètement, le symbole contenu dans chacune des cases de ce tableau indique l'état du bateau (touché ou non)
-             *     - nb : entier, permet d'écrire dans data à partir d'un certain rang
-             *     - data : tableau d'entiers à une dimension, contient les éléments importants permettant de situer chaque bateau sur le plateau de jeu de l'IA. La procédure permet de modifier ce tableau.
+             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher (IN)
+             *     - tabBateau : tableau de char à une dimension, représente un bateau. Concrètement, le symbole contenu dans chacune des cases de ce tableau indique l'état du bateau (touché ou non) (IN)
+             *     - nb : entier, permet d'écrire dans data à partir d'un certain rang (IN)
+             *     - data : tableau d'entiers à une dimension, contient les éléments importants permettant de situer chaque bateau sur le plateau de jeu de l'IA. La procédure permet de modifier ce tableau. (INOUT)
              * Variables : 
              *     - saisieUtilisateur : chaîne de charactère , réponse de l'utilisateur
              *     - choix : entier, détermine le placement vertical ou horizontal
@@ -333,7 +333,7 @@ namespace ProjetInfo
         {
             /*procédure qui trace le plateau de jeu, i.e. un tableau de case 10x10
              * Argument : 
-             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher
+             *     - tab : tableau de char à deux dimensions, contient les éléments à afficher (IN)
              * Préconditions : aucune
              * Postconditions : aucune
              */
@@ -372,9 +372,9 @@ namespace ProjetInfo
         {
             /*procédure qui indique l'action réalisée sur le plateau après le tir del'IA
             * Arguments : 
-            *     - colonne : entier, colonne de la case où l'IA a tiré
-            *     - ligne : entier, ligne de la case où l'IA a tiré 
-            *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
+            *     - colonne : entier, colonne de la case où l'IA a tiré (IN)
+            *     - ligne : entier, ligne de la case où l'IA a tiré (IN)
+            *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer (IN)
             * Préconditions : colonne et ligne doivent représenter des indices de lignes et colonnes à l'intérieur de tableau
             * Postconditions : aucune
             */
@@ -398,10 +398,10 @@ namespace ProjetInfo
         {
             /*procédure qui indique l'action réalisée sur le plateau après le tir del'IA
              * Arguments : 
-             *     - colonne : entier, colonne de la case où l'IA a tiré
-             *     - ligne : entier, ligne de la case où l'IA a tiré 
-             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
-             *     - touche : booléen, détermine si le tir à touché un bateau ou non
+             *     - colonne : entier, colonne de la case où l'IA a tiré (IN)
+             *     - ligne : entier, ligne de la case où l'IA a tiré (IN)
+             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer (IN)
+             *     - touche : booléen, détermine si le tir à touché un bateau ou non (INOUT)
              * Préconditions : colonne et ligne doivent représenter des indices de lignes et colonnes à l'intérieur de tableau
              * Postconditions : modifie la valeur de touche
              */
@@ -424,11 +424,11 @@ namespace ProjetInfo
         {
             /*procédure qui cherche où sont les bateaux autour après avoir touché un bateau
              * Arguments : 
-             *     - orientation : entier , direction dans laquelle l'ordi cherche sa prochaine cible (droite,gauche,bas, haut)
-             *     - colonne : entier, colonne de la case où l'IA a tiré
-             *     - ligne : entier, ligne de la case où l'IA a tiré 
-             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer
-             *     - touche : booléen, détermine si le tir à touché un bateau ou non
+             *     - orientation : entier , direction dans laquelle l'ordi cherche sa prochaine cible (droite, gauche, bas, haut) (INOUT)
+             *     - colonne : entier, colonne de la case où l'IA a tiré (INOUT)
+             *     - ligne : entier, ligne de la case où l'IA a tiré (INOUT)
+             *     - tableau : tableau de char à deux dimensions, représente le plateau où tirer (IN)
+             *     - touche : booléen, détermine si le tir à touché un bateau ou non (INOUT)
              * Variable :
              *     - saisieColonne : charactère, lettre de la colonne où l'IA a tiré
              * Appel : 
@@ -559,10 +559,10 @@ namespace ProjetInfo
         {
             /*procédure qui met à jour tabBateau  
              * Arguments : 
-             *     - tabBateau : tableau de char à une dimension, bateau à tester
-             *     - a : entier, numéro du bateau correspondant à tabBateau donc du rang à partir duquel il faut lire dans donnees
-             *     - donnees : tableau d'entiers à une dimension, contient les donnees relatives à tabBateau
-             *     - tab : tableau de char à deux dimensions, plateau de jeu
+             *     - tabBateau : tableau de char à une dimension, bateau à tester (IN)
+             *     - a : entier, numéro du bateau correspondant à tabBateau donc du rang à partir duquel il faut lire dans donnees (IN)
+             *     - donnees : tableau d'entiers à une dimension, contient les donnees relatives à tabBateau (IN)
+             *     - tab : tableau de char à deux dimensions, plateau de jeu (IN)
              * Préconditions : a compris entre 0 et 4 inclus
              * Postconditions : aucune 
              */
@@ -588,9 +588,9 @@ namespace ProjetInfo
         {
             /*procédure qui teste si le bateau correspondant à tabBateau est touché coulé.
              * Arguments : 
-             *     - tabBateau : tableau de char à une dimension, bateau à tester
-             *     - nbBateauCoulé : entier, compte le nombre de bateau coulé par le joueur
-             *     - coulé : booléen, indique si le bateau est coulé
+             *     - tabBateau : tableau de char à une dimension, bateau à tester (IN)
+             *     - nbBateauCoulé : entier, compte le nombre de bateau coulé par le joueur (INOUT)
+             *     - coulé : booléen, indique si le bateau est coulé (INOUT)
              * Variables : 
              *     - testBateau : booléen, teste si toutes les cases de tabBateau sont touchées
              * Préconditions : aucune
@@ -627,12 +627,12 @@ namespace ProjetInfo
         {
             /*procédure qui s'occupe de quitter la partie en cours.
              * Arguments : 
-             *     - tab : tableau de char à deux dimensions, plateau de jeu
-             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
-             *     - donnees1 : tableau d'entier, données de jeu 
-             *     - donnees2 : tableau d'entier, données de jeu 
-             *     - bool1 : booléen, réponse du joueur pour le mode de jeu
-             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi 
+             *     - tab : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - donnees1 : tableau d'entier, données de jeu (INOUT)
+             *     - donnees2 : tableau d'entier, données de jeu (INOUT)
+             *     - bool1 : booléen, réponse du joueur pour le mode de jeu (INOUT)
+             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi (INOUT)
              * Variable :
              *     - answer : string, correspond à la réponse que le joueur aura rentrée
              * Appel :
@@ -666,12 +666,12 @@ namespace ProjetInfo
         {
             /* procédure qui permet de sauvegarder une partie 
              * Arguments :
-             *     - tab : tableau de char à deux dimensions, plateau de jeu
-             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
-             *     - donnees1 : tableau d'entier, données de jeu 
-             *     - donnees2 : tableau d'entier, données de jeu 
-             *     - bool1 : booléen, réponse du joueur pour le mode de jeu
-             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi 
+             *     - tab : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - donnees1 : tableau d'entier, données de jeu (INOUT)
+             *     - donnees2 : tableau d'entier, données de jeu (INOUT)
+             *     - bool1 : booléen, réponse du joueur pour le mode de jeu (INOUT)
+             *     - bool2 : booléen, réponse du joueur pour le niveau de l'ordi (INOUT)
              * Variables :
              *     - nom : string, nom du fichier
              *     - path : string, chemin du fichier
@@ -726,13 +726,13 @@ namespace ProjetInfo
         {
             /* procédure qui premet de charger une partie
              * Arguments :
-             *     - bool1 : booléen, réponse du joueur pour le chargement de partie
-             *     - tab : tableau de char à deux dimensions, plateau de jeu
-             *     - tab2 : tableau de char à deux dimensions, plateau de jeu
-             *     - donnees1 : tableau d'entier, données de jeu 
-             *     - donnees2 : tableau d'entier, données de jeu 
-             *     - bool2 : booléen, réponse du joueur pour le mode de jeu
-             *     - bool3 : booléen, réponse du joueur pour le niveau de l'ordi 
+             *     - bool1 : booléen, réponse du joueur pour le chargement de partie (INOUT)
+             *     - tab : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - tab2 : tableau de char à deux dimensions, plateau de jeu (INOUT)
+             *     - donnees1 : tableau d'entier, données de jeu (INOUT)
+             *     - donnees2 : tableau d'entier, données de jeu (INOUT)
+             *     - bool2 : booléen, réponse du joueur pour le mode de jeu (INOUT)
+             *     - bool3 : booléen, réponse du joueur pour le niveau de l'ordi (INOUT)
              * Variables :
              *     - reponse : string, reponse à une question
              *     - reponse2 : string, reponse à une question
@@ -853,7 +853,7 @@ namespace ProjetInfo
         {
             /*fonction qui traduit les réponses en Char du joueur en entier.
              * Argument : 
-             *     - saisieColonne : string, correspond à la réponse que le joueur aura rentrée
+             *     - saisieColonne : string, correspond à la réponse que le joueur aura rentrée (IN)
              * Variable :
              *     - colonne : entier, correspond au numéro de la colonne du plateau de jeu 
              * Préconditions : aucune
@@ -907,7 +907,7 @@ namespace ProjetInfo
         {
             /*fonction qui traduit le numéro de colonne choisie par l'IA en sa lettre sur le plateau.
              * Argument : 
-             *     - colonne : int, correspond au numéro de la colonne choisie par l'IA
+             *     - colonne : int, correspond au numéro de la colonne choisie par l'IA (IN)
              * Variable :
              *     - saisieColonne : char, correspond à la lettre du plateau de jeu équivalente au numéro de la colonne du tableau du plateau de jeu
              * Préconditions : aucune
@@ -961,7 +961,7 @@ namespace ProjetInfo
         {
             /*fonction qui lit le plateau de jeu pour renvoyer le nombre de dièses qu'il contient.
              * Argument : 
-             *     - tab : tableau de char à deux dimensions, tableau à lire
+             *     - tab : tableau de char à deux dimensions, tableau à lire (IN)
              * Variable : 
              *     - nbDiese : entier, compteur du nombre de dièses présent dans tab 
              * Préconditions : aucune
